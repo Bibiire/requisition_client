@@ -54,11 +54,11 @@ handleSubmit(event, values) {
                                         <div>
                                             <div className="text-center">
                                                 <div>
-                                                    <Link to="#" className="logo"><img src={logodark} height="20" alt="logo"/></Link>
+                                                    <Link to="#" className="logo"><img src={logodark} height="40" alt="logo"/></Link>
                                                 </div>
     
                                                 <h4 className="font-size-18 mt-4">Register account</h4>
-                                                <p className="text-muted">Get your free Nazox account now.</p>
+                                                <p className="text-muted">Create your staffs account now.</p>
                                             </div>
 
                                             {this.props.user && <Alert color="success">Registration Done Successfully.</Alert>}
@@ -88,18 +88,13 @@ handleSubmit(event, values) {
                             
 
                                                     <div className="text-center">
-                                                        <Button color="primary" className="w-md waves-effect waves-light" type="submit">{this.props.loading ? "Loading ..." : "Register"}</Button>
-                                                    </div>
-
-                                                    <div className="mt-4 text-center">
-                                                        <p className="mb-0">By registering you agree to the Nazox <Link to="#" className="text-primary">Terms of Use</Link></p>
+                                                        <Button color="warning" className="w-md waves-effect waves-light" type="submit">{this.props.loading ? "Loading ..." : "Register"}</Button>
                                                     </div>
                                                 </AvForm>
                                             </div>
 
                                             <div className="mt-5 text-center">
-                                                <p>Already have an account ? <Link to="/login" className="font-weight-medium text-primary"> Login</Link> </p>
-                                                <p>© 2020 Nazox. Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesdesign</p>
+                                                <p>Already have an account ? <Link to="/login" className="font-weight-medium text-success"> Login </Link> </p>
                                             </div>
                                         </div>
 

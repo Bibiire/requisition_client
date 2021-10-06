@@ -46,11 +46,11 @@ class ForgetPasswordPage extends Component {
                                         <div>
                                             <div className="text-center">
                                                 <div>
-                                                    <Link to="/" className="logo"><img src={logodark} height="20" alt="logo"/></Link>
+                                                    <Link to="/" className="logo"><img src={logodark} height="40" alt="logo"/></Link>
                                                 </div>
     
                                                 <h4 className="font-size-18 mt-4">Reset Password</h4>
-                                                <p className="text-muted">Reset your password to Nazox.</p>
+                                                <p className="text-muted">Reset your password to Prananet.</p>
                                             </div>
 
                                             <div className="p-2 mt-5">
@@ -69,14 +69,13 @@ class ForgetPasswordPage extends Component {
                                                     </FormGroup>
 
                                                     <div className="mt-4 text-center">
-                                                        <Button color="primary" className="w-md waves-effect waves-light" type="submit">{this.props.loading ? "Loading..." : "Reset"}</Button>
+                                                        <Button color="warning" className="w-md waves-effect waves-light" type="submit">{this.props.loading ? "Loading..." : "Reset"}</Button>
                                                     </div>
                                                 </AvForm>
                                             </div>
 
                                             <div className="mt-5 text-center">
-                                                <p>Don't have an account ? <Link to="/login" className="font-weight-medium text-primary"> Log in </Link> </p>
-                                                <p>© 2020 Nazox. Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesdesign</p>
+                                                <p>Don't have an account ? <Link to="/login" className="font-weight-medium text-success"> Log in </Link> </p>
                                             </div>
                                         </div>
 

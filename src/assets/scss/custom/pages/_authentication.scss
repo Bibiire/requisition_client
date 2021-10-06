@@ -12,7 +12,7 @@
     background-size: cover;
     background-position: center;
     .bg-overlay{
-        background-color: #292626;
+        background-color: #fdb92b75;
     }
 
     @media (max-width: 991px) {
@@ -45,7 +45,7 @@
         transform: translateY(-50%);
         left: 19px;
         font-size: 24px;
-        color: $primary;
+        // color: $primary;
     }
 }
 

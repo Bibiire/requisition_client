@@ -2,7 +2,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 let users = [
-  { id: 1, username: 'admin', password: '123456', email: 'admin@themesdesign.in' }
+  { id: 1, username: 'admin', password: '123456', email: 'admin@prananet.in' }
 ];
 
 const fakeBackend = () => {
@@ -10,7 +10,6 @@ const fakeBackend = () => {
   var mock = new MockAdapter(axios);
 
   mock.onPost('/post-register').reply(function (config) {
-
     const user = JSON.parse(config['data']);
     users.push(user);
 

@@ -27,7 +27,7 @@ import logodark from '../../assets/images/logo-dark.png';
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: 'admin@prananet.in', password: '123456' };
+    this.state = { username: 'admin@prananet.in', password: '1234567' };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 

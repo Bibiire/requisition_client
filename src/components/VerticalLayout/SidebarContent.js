@@ -112,7 +112,7 @@ class SidebarContent extends Component {
             </li>
 
             <li>
-              <Link to="app-helpdesk" className=" waves-effect">
+              <Link to="app-helpDesk" className=" waves-effect">
                 <i className="fas fa-ticket-alt"></i>
                 <span className="ml-1">{this.props.t('Help-Desk')}</span>
               </Link>

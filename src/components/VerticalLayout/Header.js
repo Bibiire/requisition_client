@@ -150,7 +150,7 @@ class Header extends Component {
                       verticalAlign: 'middle',
                     }}
                   />{' '}
-                  <span className='mr-1 font-weight-bold'> {this.props.t('Request')} </span>
+                  <span className='mr-1 font-weight-bold'> {this.props.t('Help Desk')} </span>
                 </Button>
               </div>
             </div>

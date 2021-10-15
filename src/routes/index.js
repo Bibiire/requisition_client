@@ -106,6 +106,7 @@ import Pra_Vendors from "../pages/Apps/Vendors"
 import Pra_Users from "../pages/Apps/Users"
 import Pra_Profile from "../pages/Apps/Profile"
 import Pra_Requisition from "../pages/Apps/Requisition"
+import Pra_HelpDesk from "../pages/Apps/HelpDesk"
 
 //Kanban Board
 import KanbanBoard from "../pages/KanbanBoard/index";
@@ -118,6 +119,7 @@ const authProtectedRoutes = [
 	{ path: "/app-users", component: Pra_Users },
 	{ path: "/app-profile", component: Pra_Profile },
 	{ path: "/app-requisition", component: Pra_Requisition },
+	{ path: "/app-helpDesk", component: Pra_HelpDesk },
 
 	//Kanban Board
 	{ path: "/apps-kanban-board", component : KanbanBoard },

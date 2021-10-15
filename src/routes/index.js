@@ -100,10 +100,24 @@ import Login1 from "../pages/AuthenticationInner/Login";
 import Register1 from "../pages/AuthenticationInner/Register";
 import ForgetPwd1 from "../pages/AuthenticationInner/ForgetPassword";
 
+// Prananet Pagess
+import Pra_Dashboard from "../pages/Apps/Dashboard"
+import Pra_Vendors from "../pages/Apps/Vendors"
+import Pra_Users from "../pages/Apps/Users"
+import Pra_Profile from "../pages/Apps/Profile"
+import Pra_Requisition from "../pages/Apps/Requisition"
+
 //Kanban Board
 import KanbanBoard from "../pages/KanbanBoard/index";
 
 const authProtectedRoutes = [
+
+	// Prananet Pages
+	{ path: "/app-dashboard", component: Pra_Dashboard },
+	{ path: "/app-vendors", component: Pra_Vendors },
+	{ path: "/app-users", component: Pra_Users },
+	{ path: "/app-profile", component: Pra_Profile },
+	{ path: "/app-requisition", component: Pra_Requisition },
 
 	//Kanban Board
 	{ path: "/apps-kanban-board", component : KanbanBoard },

@@ -8,7 +8,7 @@ const Footer = () => {
                   <Container fluid>
                         <Row>
                             <Col sm={6}>
-                                {new Date().getFullYear()} © Nazox.
+                                {new Date().getFullYear()} © Prananet.
                             </Col>
                             <Col sm={6}>
                                 <div className="text-sm-right d-none d-sm-block">

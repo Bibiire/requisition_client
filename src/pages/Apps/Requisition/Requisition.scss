@@ -1,0 +1,18 @@
+.add-form-card {
+  cursor: pointer;
+  border: 2px dashed white;
+  box-shadow: none;
+  height: 147px;
+  background: none;
+  .add-form-icon {
+    font-size: 20px;
+  }
+  &:hover {
+    box-shadow: 2px 2px 2px rgb(214, 212, 212);
+    transition: 0.6s;
+    .add-form-icon {
+      font-size: 30px;
+      transition: 0.6s;
+    }
+  }
+}

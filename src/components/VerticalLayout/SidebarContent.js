@@ -98,13 +98,6 @@ class SidebarContent extends Component {
             </li>
 
             <li>
-              <Link to="app-vendors" className=" waves-effect">
-                <i className="ri-store-line"></i>
-                <span className="ml-1">{this.props.t('Vendors')}</span>
-              </Link>
-            </li>
-
-            <li>
               <Link to="app-requisition" className=" waves-effect">
                 <i className="fab fa-wpforms"></i>
                 <span className="ml-1">{this.props.t('Requisition')}</span>
@@ -127,22 +120,19 @@ class SidebarContent extends Component {
 
             <li>
               <Link to="/app-profile" className=" waves-effect">
-                <i
-                  className="fas fa-money-check-alt"
-                ></i>
+                <i className="fas fa-money-check-alt"></i>
                 <span className="ml-1">{this.props.t('Payment')}</span>
               </Link>
             </li>
 
             <li>
               <Link to="app-policies" className=" waves-effect">
-                <i
-                  className="fas fa-shield-alt"
-                ></i>
+                <i className="fas fa-shield-alt"></i>
                 <span className="ml-1">{this.props.t('Policies')}</span>
               </Link>
             </li>
 
+            {/* Announcement */}
             <li>
               <Link to="/#" className="has-arrow waves-effect">
                 <i className="fas fa-bullhorn"></i>
@@ -160,22 +150,25 @@ class SidebarContent extends Component {
               </ul>
             </li>
 
+            {/* Management */}
             <li>
-              <Link to="app-users" className=" waves-effect">
-                <i
-                  className=" ri-user-settings-line
-"
-                ></i>
-                <span className="ml-1">{this.props.t('Users Management')}</span>
+              <Link to="/#" className="has-arrow waves-effect">
+                <i className="ri-user-settings-line"></i>
+                <span className="ml-1">{this.props.t('Management')}</span>
               </Link>
-            </li>
-            <li>
-              <Link to="app-profile" className=" waves-effect">
-                <i
-                  className="far fa-user-circle"
-                ></i>
-                <span className="ml-1">{this.props.t('Profile')}</span>
-              </Link>
+              <ul className="sub-menu" aria-expanded="false">
+                <li>
+                  <Link to="ecommerce-product-detail">
+                    {this.props.t('Vendors')}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="app-birthday">{this.props.t('Users')}</Link>
+                </li>
+                <li>
+                  <Link to="app-birthday">{this.props.t('Profile')}</Link>
+                </li>
+              </ul>
             </li>
 
             {/* Prananet Board ---- Ending Page */}

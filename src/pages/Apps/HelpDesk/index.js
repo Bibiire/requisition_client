@@ -1,53 +1,40 @@
 import React, { Component } from 'react';
-import {
-  Container,
-  Card,
-  CardBody,
-  Row,
-  Col,
-  Collapse,
-  CardHeader,
-  Input,
-  Label,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Button,
-  Breadcrumb,
-  BreadcrumbItem,
-} from 'reactstrap';
+import { Container, Card, CardBody, Row, Col, Button } from 'reactstrap';
+//Simple bar
+import SimpleBar from 'simplebar-react';
 import { Link } from 'react-router-dom';
-
-// RangeSlider
-import Nouislider from 'nouislider-react';
-import 'nouislider/distribute/nouislider.css';
 
 //Import Breadcrumb
 import Breadcrumbs from '../../../components/Common/Breadcrumb';
 
-//Import Product Images
-import product1 from '../../../assets/images/product/img-1.png';
-import product2 from '../../../assets/images/product/img-2.png';
-import product3 from '../../../assets/images/product/img-3.png';
-import product4 from '../../../assets/images/product/img-4.png';
-import product5 from '../../../assets/images/product/img-5.png';
-import product6 from '../../../assets/images/product/img-6.png';
+// Image Media
+import { ComplainData, HelpDeskDetail, HelpDeskInfo } from './Widgets/index';
+
+// ** Third Party Components
+import classnames from 'classnames';
 
 class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      menu: false,
+      openInfo: false,
+      showDetail: false,
       breadcrumbItems: [
         { title: 'Help-Desk', link: '#' },
         { title: 'Help', link: '#' },
       ],
-      electronic: false,
-      fashion: true,
-      baby: false,
-      fitness: false,
-      discount: true,
-      size: true,
-      rating: false,
+      inbox: true,
+      sent: false,
+      trash: false,
+      status_all: true,
+      pending: false,
+      in_progress: false,
+      resolved: false,
+      priority_all: true,
+      low: false,
+      moderate: false,
+      high: false,
     };
   }
 
@@ -61,7 +48,7 @@ class Products extends Component {
               breadcrumbItems={this.state.breadcrumbItems}
             />
 
-            <Row>
+            <Row className="help-desk-application">
               <Col xl={3} lg={4}>
                 <Card>
                   <CardBody>
@@ -84,14 +71,13 @@ class Products extends Component {
                           to="#"
                           onClick={() =>
                             this.setState({
-                              electronic: !this.state.electronic,
-                              fashion: false,
-                              baby: false,
-                              fitness: false,
+                              inbox: !this.state.inbox,
+                              sent: false,
+                              trash: false,
                             })
                           }
                           className={
-                            this.state.electronic
+                            this.state.inbox
                               ? 'categories-group-list accordian-bg-products'
                               : 'categories-group-list'
                           }
@@ -108,16 +94,15 @@ class Products extends Component {
                         <Link
                           to="#"
                           className={
-                            this.state.fashion
+                            this.state.sent
                               ? 'categories-group-list accordian-bg-products'
                               : 'categories-group-list'
                           }
                           onClick={() =>
                             this.setState({
-                              fashion: !this.state.fashion,
-                              electronic: false,
-                              baby: false,
-                              fitness: false,
+                              sent: !this.state.sent,
+                              inbox: false,
+                              trash: false,
                             })
                           }
                         >
@@ -131,14 +116,13 @@ class Products extends Component {
                           to="#"
                           onClick={() =>
                             this.setState({
-                              baby: !this.state.baby,
-                              fashion: false,
-                              electronic: false,
-                              fitness: false,
+                              trash: !this.state.baby,
+                              inbox: false,
+                              sent: false,
                             })
                           }
                           className={
-                            this.state.baby
+                            this.state.trash
                               ? 'categories-group-list accordian-bg-products'
                               : 'categories-group-list'
                           }
@@ -149,7 +133,7 @@ class Products extends Component {
                       </div>
                     </div>
 
-                    {/* Priority */}
+                    {/* status */}
                     <div
                       id="accordion"
                       className="custom-accordion categories-accordion mb-5"
@@ -160,14 +144,14 @@ class Products extends Component {
                           to="#"
                           onClick={() =>
                             this.setState({
-                              electronic: !this.state.electronic,
-                              fashion: false,
-                              baby: false,
-                              fitness: false,
+                              status_all: !this.state.status_all,
+                              pending: false,
+                              in_progress: false,
+                              resolved: false,
                             })
                           }
                           className={
-                            this.state.electronic
+                            this.state.status_all
                               ? 'categories-group-list accordian-bg-products'
                               : 'categories-group-list'
                           }
@@ -181,16 +165,16 @@ class Products extends Component {
                         <Link
                           to="#"
                           className={
-                            this.state.fashion
+                            this.state.pending
                               ? 'categories-group-list accordian-bg-products'
                               : 'categories-group-list'
                           }
                           onClick={() =>
                             this.setState({
-                              fashion: !this.state.fashion,
-                              electronic: false,
-                              baby: false,
-                              fitness: false,
+                              pending: !this.state.pending,
+                              status_all: false,
+                              in_progress: false,
+                              resolved: false,
                             })
                           }
                         >
@@ -204,14 +188,14 @@ class Products extends Component {
                           to="#"
                           onClick={() =>
                             this.setState({
-                              baby: !this.state.baby,
-                              fashion: false,
-                              electronic: false,
-                              fitness: false,
+                              in_progress: !this.state.in_progress,
+                              status_all: false,
+                              pending: false,
+                              resolved: false,
                             })
                           }
                           className={
-                            this.state.baby
+                            this.state.in_progress
                               ? 'categories-group-list accordian-bg-products'
                               : 'categories-group-list'
                           }
@@ -226,14 +210,14 @@ class Products extends Component {
                           to="#"
                           onClick={() =>
                             this.setState({
-                              baby: !this.state.baby,
-                              fashion: false,
-                              electronic: false,
-                              fitness: false,
+                              resolved: !this.state.resolved,
+                              status_all: false,
+                              pending: false,
+                              in_progress: false,
                             })
                           }
                           className={
-                            this.state.baby
+                            this.state.resolved
                               ? 'categories-group-list accordian-bg-products'
                               : 'categories-group-list'
                           }
@@ -244,7 +228,7 @@ class Products extends Component {
                       </div>
                     </div>
 
-                    {/* Status */}
+                    {/* Priority */}
                     <div
                       id="accordion"
                       className="custom-accordion categories-accordion mb-5"
@@ -253,17 +237,38 @@ class Products extends Component {
                       <div>
                         <Link
                           to="#"
+                          onClick={() =>
+                            this.setState({
+                              priority_all: !this.state.priority_all,
+                              low: false,
+                              moderate: false,
+                              high: false,
+                            })
+                          }
                           className={
-                            this.state.fashion
+                            this.state.priority_all
+                              ? 'categories-group-list accordian-bg-products'
+                              : 'categories-group-list'
+                          }
+                        >
+                          <i className="fas fa-dot-circle text-secondary font-size-16 align-middle mr-2"></i>{' '}
+                          All
+                        </Link>
+                      </div>
+                      <div>
+                        <Link
+                          to="#"
+                          className={
+                            this.state.low
                               ? 'categories-group-list accordian-bg-products'
                               : 'categories-group-list'
                           }
                           onClick={() =>
                             this.setState({
-                              fashion: !this.state.fashion,
-                              electronic: false,
-                              baby: false,
-                              fitness: false,
+                              low: !this.state.low,
+                              priority_all: false,
+                              moderate: false,
+                              high: false,
                             })
                           }
                         >
@@ -277,14 +282,14 @@ class Products extends Component {
                           to="#"
                           onClick={() =>
                             this.setState({
-                              baby: !this.state.baby,
-                              fashion: false,
-                              electronic: false,
-                              fitness: false,
+                              moderate: !this.state.moderate,
+                              priority_all: false,
+                              low: false,
+                              high: false,
                             })
                           }
                           className={
-                            this.state.baby
+                            this.state.moderate
                               ? 'categories-group-list accordian-bg-products'
                               : 'categories-group-list'
                           }
@@ -299,14 +304,14 @@ class Products extends Component {
                           to="#"
                           onClick={() =>
                             this.setState({
-                              baby: !this.state.baby,
-                              fashion: false,
-                              electronic: false,
-                              fitness: false,
+                              high: !this.state.high,
+                              priority_all: false,
+                              low: false,
+                              moderate: false,
                             })
                           }
                           className={
-                            this.state.baby
+                            this.state.high
                               ? 'categories-group-list accordian-bg-products'
                               : 'categories-group-list'
                           }
@@ -320,104 +325,36 @@ class Products extends Component {
                 </Card>
               </Col>
               <Col lg={9}>
-                <Card>
-                  <CardBody>
-                    <div>
-                      <Row className="categories-group-card">
-                        <Col md={6}>
-                          <div className="form-inline">
-                            <div className="search-box">
-                              <div className="position-relative">
-                                <Input
-                                  type="text"
-                                  className="form-control rounded border border-white"
-                                  placeholder="Search..."
-                                />
-                                <i className="mdi mdi-magnify search-icon"></i>
-                              </div>
-                            </div>
-                          </div>
-                        </Col>
-                      </Row>
-                      <Row className="no-gutters my-3 bg-light">
-                        <Col xl={4} sm={6}>
-                          <div className="product-box">
-                            <div className="product-img">
-                              <div className="product-ribbon badge badge-warning">
-                                Trending
-                              </div>
-                              <div className="product-like">
-                                <Link to="#">
-                                  <i className="mdi mdi-heart-outline"></i>
-                                </Link>
-                              </div>
-                              {/* <img
-                                src={product1}
-                                alt=""
-                                className="img-fluid mx-auto d-block"
-                              /> */}
-                            </div>
-
-                            <div className="text-center">
-                              <p className="font-size-12 mb-1">
-                                Blue color, T-shirt
-                              </p>
-                              <h5 className="font-size-15">
-                                <Link to="#" className="text-dark">
-                                  Full sleeve T-shirt
-                                </Link>
-                              </h5>
-
-                              <h5 className="mt-3 mb-0">$240</h5>
-                            </div>
-                          </div>
-                        </Col>
-                      </Row>
-
-                      <Row className="mt-4">
-                        <Col sm={6}>
-                          <div>
-                            <p className="mb-sm-0 mt-2">
-                              Page <span className="font-weight-bold">2</span>{' '}
-                              Of <span className="font-weight-bold">113</span>
-                            </p>
-                          </div>
-                        </Col>
-                        <Col sm={6}>
-                          <div className="float-sm-right">
-                            <Pagination className="pagination-rounded mb-sm-0">
-                              <PaginationItem disabled>
-                                <PaginationLink href="#">
-                                  <i className="mdi mdi-chevron-left"></i>
-                                </PaginationLink>
-                              </PaginationItem>
-                              <PaginationItem>
-                                <PaginationLink href="#">1</PaginationLink>
-                              </PaginationItem>
-                              <PaginationItem active>
-                                <PaginationLink href="#">2</PaginationLink>
-                              </PaginationItem>
-                              <PaginationItem>
-                                <PaginationLink href="#">3</PaginationLink>
-                              </PaginationItem>
-                              <PaginationItem>
-                                <PaginationLink hrefo="#">4</PaginationLink>
-                              </PaginationItem>
-                              <PaginationItem>
-                                <PaginationLink href="#">5</PaginationLink>
-                              </PaginationItem>
-                              <PaginationItem>
-                                <PaginationLink href="#">
-                                  <i className="mdi mdi-chevron-right"></i>
-                                </PaginationLink>
-                              </PaginationItem>
-                            </Pagination>
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </CardBody>
-                </Card>
+                {/* Help-desk detail */}
+                <div
+                  className={classnames('help-desk-app-details', {
+                    show: this.state.openInfo,
+                  })}
+                >
+                  <HelpDeskDetail
+                    showDetail={() =>
+                      this.setState((prevState) => ({
+                        openInfo: !prevState.openInfo,
+                      }))
+                    }
+                  />
+                </div>
+                {/* Help-dsk info ending */}
+                {!this.state.openInfo && (
+                  <div
+                    className={classnames('help-desk-app-info', {
+                      show: this.state.openMail,
+                    })}
+                  >
+                    <HelpDeskInfo
+                      showDetail={() =>
+                        this.setState((prevState) => ({
+                          openInfo: !prevState.openInfo,
+                        }))
+                      }
+                    />
+                  </div>
+                )}
               </Col>
             </Row>
           </Container>

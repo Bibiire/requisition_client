@@ -115,6 +115,9 @@
     padding: 24px;
     border: 1px solid $border-color;
     transition: all 0.4s;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
     
     &:hover{
         box-shadow: $box-shadow;
@@ -126,15 +129,16 @@
     
     .product-ribbon{
         position: absolute;
-        top: 0;
+        top: -25px;
         left: -24px;
         padding: 6px 8px;
         border-radius: 0px 30px 30px 0px;
+        text-transform: capitalize;
     }
 
     .product-like{
         position: absolute;
-        top: 0;
+        top: -20px;
         right: 0;
         a{
             display: inline-block;

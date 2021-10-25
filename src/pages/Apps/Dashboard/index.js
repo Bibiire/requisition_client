@@ -5,15 +5,38 @@ import { Container, Row, Col } from 'reactstrap';
 import Breadcrumbs from '../../../components/Common/Breadcrumb';
 
 //Import Components
-import MiniWidgets from "./MiniWidgets";
+import MiniWidgets from './MiniWidgets';
 import RevenueAnalytics from './RevenueAnalytics';
-import SalesAnalytics from "./SalesAnalytics";
-import EarningReports from "./EarningReports";
+import DepartmentalAnalysis from '../../../components/Common/PieChartCard';
+import EarningReports from './ReportSummary';
 // import Sources from "./Sources";
 // import RecentlyActivity from "./RecentlyActivity";
 // import RevenueByLocations from "./RevenueByLocations";
 // import ChatBox from "./ChatBox";
 // import LatestTransactions from "./LatestTransactions";
+
+const data = {
+  series: [42, 26, 15],
+  options: {
+    labels: ['Product A', 'Product B', 'Product C'],
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '75%',
+        },
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    legend: {
+      show: false,
+    },
+    colors: ['#5664d2', '#1cbb8c', '#eeb902'],
+  },
+  title: 'Departmental Summary',
+  department: ['Ostia', 'Nimco', 'Prananet'],
+};
 
 class Dashboard extends Component {
   constructor(props) {
@@ -70,10 +93,10 @@ class Dashboard extends Component {
 
               <Col xl={4}>
                 {/* sales Analytics */}
-                <SalesAnalytics/>
+                <DepartmentalAnalysis data={data} />
 
                 {/* earning reports */}
-                <EarningReports/>
+                <EarningReports />
               </Col>
             </Row>
 

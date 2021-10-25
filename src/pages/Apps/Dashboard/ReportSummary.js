@@ -92,17 +92,13 @@ class EarningReports extends Component {
                 <i className="mdi mdi-dots-vertical"></i>
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem href="">Sales Report</DropdownItem>
+                <DropdownItem href=""> Report 1</DropdownItem>
 
-                <DropdownItem href="">Export Report</DropdownItem>
-
-                <DropdownItem href="">Profit</DropdownItem>
-
-                <DropdownItem href="">Action</DropdownItem>
+                <DropdownItem href=""> Report 2</DropdownItem>
               </DropdownMenu>
             </Dropdown>
 
-            <h4 className="card-title mb-4">Earning Reports</h4>
+            <h4 className="card-title mb-4">Reports</h4>
             <div className="text-center">
               <Row>
                 <Col sm={6}>
@@ -119,9 +115,9 @@ class EarningReports extends Component {
                     </div>
 
                     <p className="text-muted text-truncate mb-2">
-                      Weekly Earnings
+                      Total Projects
                     </p>
-                    <h5>$2,523</h5>
+                    <h5>10</h5>
                   </div>
                 </Col>
 
@@ -138,10 +134,8 @@ class EarningReports extends Component {
                       </div>
                     </div>
 
-                    <p className="text-muted text-truncate mb-2">
-                      Monthly Earnings
-                    </p>
-                    <h5>$11,235</h5>
+                    <p className="text-muted text-truncate mb-2">Total Tasks</p>
+                    <h5>200</h5>
                   </div>
                 </Col>
               </Row>

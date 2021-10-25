@@ -107,6 +107,8 @@ import Pra_Users from "../pages/Apps/Users"
 import Pra_Profile from "../pages/Apps/Profile"
 import Pra_Requisition from "../pages/Apps/Requisition"
 import Pra_HelpDesk from "../pages/Apps/HelpDesk"
+import Pra_Report from "../pages/Apps/Reports"
+import ComingSoon from "../pages/Apps/ComingSoon"
 
 //Kanban Board
 import KanbanBoard from "../pages/KanbanBoard/index";
@@ -115,9 +117,17 @@ const authProtectedRoutes = [
 
 	// Prananet Pages
 	{ path: "/app-dashboard", component: Pra_Dashboard },
-	{ path: "/app-vendors", component: Pra_Vendors },
-	{ path: "/app-users", component: Pra_Users },
-	{ path: "/app-profile", component: Pra_Profile },
+	{ path: "/app-vendors", component: ComingSoon },
+	{ path: "/app-users", component: ComingSoon },
+	{ path: "/app-reports", component: Pra_Report },
+	{ path: "/app-reports", component: Pra_Report },
+	{ path: "/app-policies", component: ComingSoon },
+	{ path: "/app-payment", component: ComingSoon },
+	{ path: "/app-announcement", component: ComingSoon },
+	{ path: "/app-birthday", component: ComingSoon },
+	{ path: "/app-vendors", component: ComingSoon },
+	{ path: "/app-user", component: ComingSoon },
+	{ path: "/app-profile", component: ComingSoon },
 	{ path: "/app-requisition", component: Pra_Requisition },
 	{ path: "/app-helpDesk", component: Pra_HelpDesk },
 

@@ -108,6 +108,7 @@ import Pra_Profile from "../pages/Apps/Profile"
 import Pra_Requisition from "../pages/Apps/Requisition"
 import Pra_HelpDesk from "../pages/Apps/HelpDesk"
 import Pra_Report from "../pages/Apps/Reports"
+import Pra_Policies from "../pages/Apps/Policies"
 import ComingSoon from "../pages/Apps/ComingSoon"
 
 //Kanban Board
@@ -121,7 +122,7 @@ const authProtectedRoutes = [
 	{ path: "/app-users", component: ComingSoon },
 	{ path: "/app-reports", component: Pra_Report },
 	{ path: "/app-reports", component: Pra_Report },
-	{ path: "/app-policies", component: ComingSoon },
+	{ path: "/app-policies", component: Pra_Policies },
 	{ path: "/app-payment", component: ComingSoon },
 	{ path: "/app-announcement", component: ComingSoon },
 	{ path: "/app-birthday", component: ComingSoon },

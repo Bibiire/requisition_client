@@ -1,21 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Container,
-  Card,
-  CardBody,
-  Row,
-  Nav,
-  NavItem,
-  NavLink,
-  TabPane,
-  TabContent,
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-} from 'reactstrap';
+import { Row, Col, FormGroup, Label, Button } from 'reactstrap';
 
 import { AvForm, AvField, AvInput } from 'availity-reactstrap-validation';
 
@@ -99,7 +83,7 @@ const RequestForm = ({ editData }) => {
                     <Select
                       name="q-type"
                       defaultValue={qTypeOptions[1]}
-                      onChange={(e) => this.OnChangeSelectHandler(e, 'qType')}
+                      onChange={(e) => OnChangeSelectHandler(e, 'qType')}
                       options={qTypeOptions}
                       className="q-type select2-multiple"
                     />

@@ -9,7 +9,7 @@ import {
 // import './Requisition.scss';
 
 //Import Components
-import { MiniWidgets } from './widgets/index';
+import { MiniWidgets, ReportAnalytics } from './widgets/index';
 // import DataTable from './DataTable';
 import { ProjectsTable } from './Tables/index';
 import { Modal } from '../../../components/UiElement/index';
@@ -45,7 +45,7 @@ class Requisition extends Component {
     this.state = {
       openModal: false,
       editData: null,
-      modalTitle: '',
+      modalTitle: 'Report Form',
       breadcrumbItems: [
         { title: 'Prananet', link: '#' },
         { title: 'Report', link: '#' },
@@ -149,7 +149,10 @@ class Requisition extends Component {
       <React.Fragment>
         <div className="page-content">
           <Container fluid>
-            <Breadcrumb title="Requisition" breadcrumbItems={breadcrumbItems} />
+            <Breadcrumb
+              title="Daily Report"
+              breadcrumbItems={breadcrumbItems}
+            />
             <Row>
               <Col xl={8}>
                 <Row>
@@ -166,27 +169,28 @@ class Requisition extends Component {
                     this.previewRequestModalHandler(this, value)
                   }
                 />
+              </Col>
 
-                {/* Requisition form Modal  */}
-                <Modal
-                  modal_static={openModal}
-                  SetModalStatic={this.toggleModal}
-                  title={modalTitle}
-                >
-                  {/* {modalContent === 'editForm' ? (
+              <Col xl={4}>
+                <TaskAnalysis data={data} />
+                <ReportAnalytics />
+              </Col>
+            </Row>
+
+            {/* Report Modal  */}
+            <Modal
+              modal_static={openModal}
+              SetModalStatic={this.toggleModal}
+              title={modalTitle}
+            >
+              {/* {modalContent === 'editForm' ? (
                     <RequestForm editData={editData} />
                   ) : modalContent === 'addForm' ? (
                     <RequestForm editData={editData} />
                   ) : (
                     <RequisitionDetails />
                   )} */}
-                </Modal>
-              </Col>
-
-              <Col xl={4}>
-                <TaskAnalysis data={data} />
-              </Col>
-            </Row>
+            </Modal>
           </Container>
         </div>
       </React.Fragment>

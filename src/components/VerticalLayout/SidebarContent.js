@@ -116,7 +116,7 @@ class SidebarContent extends Component {
             <li>
               <Link to="/app-reports" className=" waves-effect">
                 <i className="fas fa-chart-bar"></i>
-                <span className="ml-1">{this.props.t('Reports')}</span>
+                <span className="ml-1">{this.props.t('Daily Reports')}</span>
               </Link>
             </li>
 

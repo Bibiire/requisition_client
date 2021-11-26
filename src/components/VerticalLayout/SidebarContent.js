@@ -21,7 +21,7 @@ class SidebarContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showSideBar: false,
+      showSideBar: true,
     };
   }
 

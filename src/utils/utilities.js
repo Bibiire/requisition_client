@@ -23,9 +23,27 @@ export const getAccessToken = () => {
 
 export const saveAccessToken = (token) => {
   localStorage.setItem(process.env.REACT_APP_TOKEN_NAME, token);
-  localStorage.setItem(process.env.REACT_APP_TOKEN_TIME, Date.now());
+  // localStorage.setItem(process.env.REACT_APP_TOKEN_TIME, Date.now());
 };
 
 export const saveRefreshToken = (token) => {
   localStorage.setItem(process.env.REACT_APP_REFRESH_TOKEN_NAME, token);
+};
+
+export const userInfo = () => {
+  const role = JSON.parse(localStorage.getItem('userRole'));
+  const authUser = JSON.parse(localStorage.getItem('authUser'));
+
+  return { role, authUser };
+};
+
+export const groupArrObj = (arr, groupBy) => {
+  let result = arr.reduce(function (r, a) {
+    r[a.user.departments[groupBy]] = r[a.user.departments[groupBy]] || [];
+    r[a.user.departments[groupBy]].push(a);
+
+    return r;
+  }, Object.create(null));
+
+  return result;
 };

@@ -6,7 +6,6 @@ import ReactApexChart from 'react-apexcharts';
 import '../../assets/scss/common/dashboard.scss';
 
 const PieChartAnalysis = ({ data }) => {
-  console.log(data)
   return (
     <Card>
       <CardBody>

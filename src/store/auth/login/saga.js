@@ -1,5 +1,7 @@
 import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
+import { saveAccessToken } from '../../../utils/utilities';
+
 // Login Redux States
 import { CHECK_LOGIN, LOGOUT_USER } from './actionTypes';
 import { apiError, loginUserSuccessful, logoutUserSuccess } from './actions';
@@ -16,24 +18,23 @@ const fireBaseBackend = getFirebaseBackend();
 //If user is login then dispatch redux action's are directly from here.
 function* loginUser({ payload: { user, history } }) {
   try {
-    console.log('user');
-    console.log(user);
-    const response = yield call(postLogin, '/post-login', {
-      username: user.username,
+    const response = yield call(postLogin, {
+      userName: user.username,
       password: user.password,
     });
-    localStorage.setItem('authUser', JSON.stringify(response));
-    yield put(loginUserSuccessful(response));
+    localStorage.setItem('authUser', JSON.stringify(response.data.user));
+    localStorage.setItem('userRole', JSON.stringify(response.data.role));
+    saveAccessToken(response.data.token);
+    yield put(loginUserSuccessful(response.data.user));
     history.push('/app-dashboard');
   } catch (error) {
-    yield put(apiError(error));
+    yield put(apiError(error.response.data));
   }
 }
 
 function* logoutUser({ payload: { history } }) {
   try {
     localStorage.removeItem('authUser');
-
     if (process.env.REACT_APP_DEFAULTAUTH === 'firebase') {
       const response = yield call(fireBaseBackend.logout);
       yield put(logoutUserSuccess(response));

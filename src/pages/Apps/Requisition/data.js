@@ -3,21 +3,22 @@ import { Link } from 'react-router-dom';
 
 export const data = {
   columns: [
-    {
-      field: 'id',
-      label: 'No.',
-    },
+    // {
+    //   field: 'id',
+    //   label: 'No.',
+    // },
     {
       field: 'orderId',
       label: 'Request ID',
-    },{
+    },
+    {
       field: 'item',
       label: 'Request Item',
     },
-    {
-      field: 'billingName',
-      label: 'Title Name',
-    },
+    // {
+    //   field: 'billingName',
+    //   label: 'Title Name',
+    // },
     {
       field: 'total',
       label: 'Total',
@@ -220,6 +221,37 @@ export const options = {
     {
       text: 'All',
       value: data.rows.length,
+    },
+  ],
+};
+
+export const FilterDropDownData = {
+  dropDownStatus: [
+    {
+      id: 1,
+      name: 'Pending',
+    },
+    {
+      id: 2,
+      name: 'Approved',
+    },
+    {
+      id: 6,
+      name: 'Reject',
+    },
+  ],
+  dropDownDepartment: [
+    {
+      id: 1,
+      field: 'Ostia',
+    },
+    {
+      id: 2,
+      field: 'Prananet',
+    },
+    {
+      id: 3,
+      field: 'Account',
     },
   ],
 };

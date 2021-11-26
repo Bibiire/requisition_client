@@ -3,17 +3,30 @@ import { Container, Row, Col, Card } from 'reactstrap';
 
 //Import Breadcrumb
 import Breadcrumbs from '../../../components/Common/Breadcrumb';
+
+import { Alert } from '../../../components/Common/index';
 import './Requisition.scss';
 
 //Import Components
 import MiniWidgets from './MiniWidgets';
-// import DataTable from './DataTable';
 import DataTable from './RequisitionTable';
 import { Modal } from '../../../components/UiElement/index';
 import RequestForm from './RequisitionForm';
 import RequisitionDetails from './RequisitionDetails';
-// import EarningReports from "./EarningReports";
 
+// Redux
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
+// action
+import {
+  fetchRequisition,
+  fetchRequisitionByDpt,
+  updateRequisition,
+  fetchVendor,
+  createRequisition,
+  fetchDepartment,
+} from '../../../store/actions';
 class Requisition extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +34,7 @@ class Requisition extends Component {
       openModal: false,
       editData: null,
       modalTitle: '',
+      previewContent: null,
       breadcrumbItems: [
         { title: 'Prananet', link: '#' },
         { title: 'Requisition', link: '#' },
@@ -71,6 +85,7 @@ class Requisition extends Component {
       openModal: !prevState.openModal,
     }));
   }
+
   editRequestModalHandler(e, value) {
     this.setState((prevState) => ({
       openModal: !prevState.openModal,
@@ -85,6 +100,7 @@ class Requisition extends Component {
       openModal: !prevState.openModal,
       modalTitle: 'Request Details',
       modalContent: 'previewForm',
+      previewContent: value,
     }));
   }
 
@@ -111,6 +127,12 @@ class Requisition extends Component {
     );
   }
 
+  componentDidMount() {
+    this.props.fetchRequisition();
+    this.props.fetchVendor();
+    this.props.fetchDepartment();
+  }
+
   render() {
     const {
       modalTitle,
@@ -120,8 +142,10 @@ class Requisition extends Component {
       openModal,
       editData,
     } = this.state;
+
     return (
       <React.Fragment>
+        {this.props.successMsg && <Alert />}
         <div className="page-content">
           <Container fluid>
             <Breadcrumbs
@@ -140,9 +164,14 @@ class Requisition extends Component {
                   editModal={(value) =>
                     this.editRequestModalHandler(this, value)
                   }
+                  requestData={this.props.requests}
+                  loading={this.props.loading}
                   previewModal={(value) =>
                     this.previewRequestModalHandler(this, value)
                   }
+                  updateRequestHandler={this.props.updateRequisition}
+                  departments={this.props.departments}
+                  requisitionFilterHandle={this.props.fetchRequisitionByDpt}
                 />
 
                 {/* Requisition form Modal  */}
@@ -152,11 +181,21 @@ class Requisition extends Component {
                   title={modalTitle}
                 >
                   {modalContent === 'editForm' ? (
-                    <RequestForm editData={editData} />
+                    <RequestForm
+                      vendors={this.props.vendors}
+                      editData={editData}
+                    />
                   ) : modalContent === 'addForm' ? (
-                    <RequestForm editData={editData} />
+                    <RequestForm
+                      vendors={this.props.vendors}
+                      editData={editData}
+                      createRequest={this.props.createRequisition}
+                      closeModal={this.toggleModal}
+                    />
                   ) : (
-                    <RequisitionDetails />
+                    <RequisitionDetails
+                      previewContentId={this.state.previewContent}
+                    />
                   )}
                 </Modal>
               </Col>
@@ -168,4 +207,20 @@ class Requisition extends Component {
   }
 }
 
-export default Requisition;
+const mapStatetoProps = (state) => {
+  const { requests, loading, successMsg } = state.Requisition;
+  const { vendors } = state.Vendor;
+  const { departments } = state.Department;
+  return { requests, vendors, departments, loading, successMsg };
+};
+
+export default withRouter(
+  connect(mapStatetoProps, {
+    fetchRequisition,
+    fetchVendor,
+    fetchRequisitionByDpt,
+    updateRequisition,
+    fetchDepartment,
+    createRequisition,
+  })(Requisition)
+);

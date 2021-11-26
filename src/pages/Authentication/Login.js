@@ -27,7 +27,7 @@ import logodark from '../../assets/images/logo-dark.png';
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: 'admin@prananet.in', password: '1234567' };
+    this.state = { username: 'Hr', password: '1234' };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -79,7 +79,7 @@ class Login extends Component {
 
                           {this.props.loginError && this.props.loginError ? (
                             <Alert color="danger">
-                              {this.props.loginError}
+                              {this.props.loginError?.message}
                             </Alert>
                           ) : null}
 
@@ -97,7 +97,7 @@ class Login extends Component {
                                   type="text"
                                   className="form-control"
                                   id="username"
-                                  validate={{ email: true, required: true }}
+                                  validate={{ required: true }}
                                   placeholder="Enter username"
                                 />
                               </FormGroup>
@@ -153,12 +153,12 @@ class Login extends Component {
 
                           <div className="mt-5 text-center">
                             <p>
-                              Don't have an account ? 
+                              Don't have an account ?
                               <Link
                                 to="/register"
                                 className="font-weight-medium text-success"
                               >
-                                 Register
+                                Register
                               </Link>
                             </p>
                           </div>

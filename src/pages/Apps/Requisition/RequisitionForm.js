@@ -6,11 +6,7 @@ import { AvForm, AvField, AvInput } from 'availity-reactstrap-validation';
 //select
 import Select from 'react-select';
 
-const options = [
-  { value: 'TO', label: 'Dangote' },
-  { value: 'CF', label: 'Ikeja Pipeline' },
-  { value: 'NO', label: 'Iwobi Wire Ng' },
-];
+let options = [];
 
 const qTypeOptions = [
   { value: 'set', label: 'Set' },
@@ -19,7 +15,7 @@ const qTypeOptions = [
   { value: 'bundle', label: 'bundle' },
 ];
 
-const RequestForm = ({ editData }) => {
+const RequestForm = ({ editData, vendors, createRequest, closeModal }) => {
   const [editedData] = useState(editData);
   const [siLoading, setIsLoading] = useState(true);
   const [defaultValues, setDefaultField] = useState({
@@ -29,15 +25,34 @@ const RequestForm = ({ editData }) => {
     quantity: '',
   });
   const [qType, setQType] = useState('set');
-  const [vendors, setVendors] = useState([{ value: 'TO', label: 'Dangote' }]);
+  const [userId, setUserID] = useState('');
+  const [vendor, setvendor] = useState([{ value: 'TO', label: 'Dangote' }]);
+
+  useEffect(() => {
+    if (localStorage.getItem('authUser')) {
+      const obj = JSON.parse(localStorage.getItem('authUser'));
+      let id = obj?.id;
+      setUserID(id);
+    }
+  }, []);
+
+  useEffect(() => {
+    vendors.map((vendor) => {
+      const optionObj = {
+        value: vendor.id,
+        label: vendor.name,
+      };
+      options.push(optionObj);
+    });
+  }, []);
 
   useEffect(() => {
     if (editData !== null) {
       setDefaultField({
-        item: 'bag or cement',
-        cost: '1000',
-        discount: '20',
-        quantity: '2',
+        item: editData.itemName,
+        cost: editedData.totalPrice,
+        discount: 0,
+        quantity: editedData.quantity,
       });
       setIsLoading(false);
     } else {
@@ -46,14 +61,25 @@ const RequestForm = ({ editData }) => {
   }, []);
 
   const handleValidSubmit = (event, values) => {
-    console.log(values);
-    console.log(qType);
-    console.log(vendors);
+    const requestForm = {
+      itemName: values.item,
+      quantity: Number(values.quantity),
+      unitPrice: Number(values.cost),
+      discount: values.discount,
+      description: 'description',
+      totalPrice:
+        Number(values.cost) * Number(values.quantity) - Number(values.discount),
+      userId: userId,
+      vendorId: vendor.value,
+    };
+    console.log(requestForm)
+    // createRequest(requestForm);
+    // closeModal();
   };
 
   const OnChangeSelectHandler = (value, field) => {
     if (field === 'qType') return setQType(value);
-    setVendors(value);
+    setvendor(value);
   };
   return (
     <React.Fragment>
@@ -82,7 +108,7 @@ const RequestForm = ({ editData }) => {
                     </Label>
                     <Select
                       name="q-type"
-                      defaultValue={qTypeOptions[1]}
+                      // defaultValue={editedData !== null &&qTypeOptions[1]}
                       onChange={(e) => OnChangeSelectHandler(e, 'qType')}
                       options={qTypeOptions}
                       className="q-type select2-multiple"
@@ -108,13 +134,12 @@ const RequestForm = ({ editData }) => {
                 <Col lg={6}>
                   <FormGroup>
                     <Label htmlFor="vendor" className="control-label">
-                      Vendors
+                      Vendor
                     </Label>
                     <Select
-                      defaultValue={[options[2], options[3]]}
-                      isMulti
+                      defaultValue={editedData !== null &&options[0]}
                       name="vendor"
-                      onChange={(e) => OnChangeSelectHandler(e, 'vendors')}
+                      onChange={(e) => OnChangeSelectHandler(e, 'vendor')}
                       options={options}
                       className="vendor select2-multiple"
                     />
@@ -160,7 +185,7 @@ const RequestForm = ({ editData }) => {
               </FormGroup>
               <div className="text-center mt-4">
                 <Button
-                  color="primary"
+                  color="warning"
                   type="submit"
                   className="mr-2 waves-effect waves-light"
                 >

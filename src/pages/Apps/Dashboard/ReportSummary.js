@@ -92,9 +92,9 @@ class EarningReports extends Component {
                 <i className="mdi mdi-dots-vertical"></i>
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem href=""> Report 1</DropdownItem>
+                <DropdownItem> Report 1</DropdownItem>
 
-                <DropdownItem href=""> Report 2</DropdownItem>
+                <DropdownItem> Report 2</DropdownItem>
               </DropdownMenu>
             </Dropdown>
 

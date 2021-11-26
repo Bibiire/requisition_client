@@ -1,0 +1,4 @@
+export const GET_DEPARTMENT = 'GET_DEPARTMENT'
+export const FETCH_DEPARTMENT_SUCCESSFUL = 'FETCH_DEPARTMENT_SUCCESSFUL';
+
+export const API_ERROR = 'api_failed';

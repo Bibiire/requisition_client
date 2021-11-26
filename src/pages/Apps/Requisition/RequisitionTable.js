@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Col,
-  Dropdown,
-  DropdownMenu,
-  DropdownToggle,
-  DropdownItem,
   Card,
   CardBody,
 } from 'reactstrap';
@@ -12,47 +7,88 @@ import { Link } from 'react-router-dom';
 import { MDBDataTable } from 'mdbreact';
 import '../../../assets/scss/common/datatables.scss';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
+import { FilterCard } from './components/index';
+import { data } from './data';
 
-import { data, options } from './data';
-
-const RequisitionTable = ({ editModal, previewModal }) => {
-  const [menu, setMenu] = useState(false);
+const RequisitionTable = ({
+  editModal,
+  previewModal,
+  requestData,
+  updateRequestHandler,
+  loading,
+  departments,
+  requisitionFilterHandle
+}) => {
+  // const [menu, setMenu] = useState(false);
+  const [filter, showFilter] = useState(false);
   const [newData, setData] = useState(null);
 
   useEffect(() => {
-    setData(updateTableData());
-  }, []);
+    if (requestData) {
+      setData(updateTableData());
+    }
+  }, [requestData]);
 
   const updateTableData = () => {
-    const cloneRowsData = data.rows.map((row) => {
-      const newRows = {
-        ...row,
+    const role = JSON.parse(localStorage.getItem('userRole'));
+    const cloneRowsData = requestData.map((request) => {
+      const newRequest = {
+        item: request.itemName.toUpperCase(),
+        date: request.createdAt,
+        status: (
+          <div
+            className={` font-size-12 badge badge-soft-${
+              request.status === 1
+                ? 'secondary'
+                : request.status === 6
+                ? 'danger'
+                : 'success'
+            }`}
+          >
+            {request.status === 1
+              ? 'Pending'
+              : request.status === 6
+              ? 'Rejected'
+              : 'Approved'}
+          </div>
+        ),
+        total: `₦${request.totalPrice.toLocaleString()}`,
+        orderId: (
+          <Link to="#" className="text-dark font-weight-bold">
+            #NZ1572
+          </Link>
+        ),
         actions: (
           <>
             <Link
               to="#"
-              onClick={() => editDataHandler(row)}
+              onClick={() => editDataHandler(request)}
               className="mr-3 text-primary"
             >
               <i className="mdi mdi-pencil font-size-18"></i>
             </Link>
+            {role[0] === 'Admin' && (
+              <>
+                <Link
+                  to="#"
+                  onClick={() => updateDataHandler(request, 2)}
+                  className=" mr-3 text-success"
+                >
+                  <i className="far fa-check-circle font-size-18"></i>
+                </Link>
+                <Link
+                  to="#"
+                  onClick={() => updateDataHandler(request, 6)}
+                  className="mr-3 text-danger"
+                >
+                  <i className=" far fa-times-circle font-size-18"></i>
+                </Link>
+              </>
+            )}
+
             <Link
               to="#"
-              onClick={() => updateDataHandler(row)}
-              className=" mr-3 text-success"
-            >
-              <i className="far fa-check-circle font-size-18"></i>
-            </Link>
-            <Link
-              to="#"
-              onClick={() => deleteDataHandler(row?.id)}
-              className="mr-3 text-danger"
-            >
-              <i className=" far fa-times-circle font-size-18"></i>
-            </Link>
-            <Link
-              to="#"
-              onClick={() => previewDataHandler(row)}
+              onClick={() => previewDataHandler(request)}
               className=" mr-3 text-secondary"
             >
               <i className=" far fa-meh-rolling-eyes font-size-18"></i>
@@ -60,21 +96,19 @@ const RequisitionTable = ({ editModal, previewModal }) => {
           </>
         ),
       };
-      return newRows;
+      return newRequest;
     });
-
     return {
       columns: data.columns,
       rows: cloneRowsData,
     };
   };
 
-  const updateDataHandler = (row) => {
-    alert(`Update table state ${row.id}`);
-  };
-
-  const deleteDataHandler = (row) => {
-    alert(`delete ${row.id}`);
+  const updateDataHandler = (row, statusValue) => {
+    const editedData = {
+      ...row, status : statusValue
+    }
+    updateRequestHandler(editedData)
   };
 
   const editDataHandler = (row) => {
@@ -89,29 +123,34 @@ const RequisitionTable = ({ editModal, previewModal }) => {
     <React.Fragment>
       <Card>
         <CardBody>
-          <Dropdown
-            isOpen={menu}
-            toggle={() => setMenu({ menu: !menu })}
-            className="float-right"
-          >
-            <DropdownToggle tag="i" className="arrow-none card-drop">
-              <i className="mdi mdi-dots-vertical"></i>
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem>2021</DropdownItem>
+          <div>
+            <div className="float-right d-flex">
+              <span
+                className="btn btn-light btn-sm mr-2 py-0"
+                // style={{ cursor: 'pointer' }}
+                onClick={() => showFilter(!filter)}
+              >
+                <i className=" ri-filter-3-line font-size-18 " />
+              </span>
+              <select className="custom-select custom-select-sm">
+                <option defaultValue>This Months</option>
+                <option value="1">Today</option>
+                <option value="2">7 days</option>
+              </select>
+            </div>
 
-              <DropdownItem>2020</DropdownItem>
-
-              <DropdownItem>2019</DropdownItem>
-
-              <DropdownItem>2018</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-
-          <h4 className="card-title mb-4">Transition</h4>
-
-          {newData !== null && (
-            <MDBDataTable responsive data={newData} className="mt-4" />
+            <h4 className="card-title mb-4">Transition</h4>
+          </div>
+          <FilterCard
+            updateFilterHandler={requisitionFilterHandle}
+            departments={departments}
+            filterProp={filter}
+            tableData={requestData}
+          />
+          {!loading && newData !== null ? (
+            <MDBDataTable responsive data={newData} className="mt-2" />
+          ) : (
+            <p> Loading... </p>
           )}
         </CardBody>
       </Card>

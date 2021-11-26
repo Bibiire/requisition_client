@@ -1,22 +1,51 @@
-import { REGISTER_USER, REGISTER_USER_SUCCESSFUL, REGISTER_USER_FAILED } from './actionTypes';
+import {
+  REGISTER_USER,
+  REGISTER_USER_SUCCESSFUL,
+  REGISTER_USER_FAILED,
+  LOAD_USER,
+  LOAD_USER_SUCCESSFUL,
+  LOAD_USER_ERROR,
+} from './actionTypes';
 
 export const registerUser = (user) => {
-    return {
-        type: REGISTER_USER,
-        payload: { user }
-    }
-}
+  return {
+    type: REGISTER_USER,
+    payload: { user },
+  };
+};
 
 export const registerUserSuccessful = (user) => {
-    return {
-        type: REGISTER_USER_SUCCESSFUL,
-        payload: user
-    }
-}
+  return {
+    type: REGISTER_USER_SUCCESSFUL,
+    payload: user,
+  };
+};
 
 export const registerUserFailed = (error) => {
-    return {
-        type: REGISTER_USER_FAILED,
-        payload: error
-    }
-}
+  return {
+    type: REGISTER_USER_FAILED,
+    payload: error,
+  };
+};
+
+export const loadUser = (payload) => {
+  return {
+    type: LOAD_USER,
+    payload: { payload },
+  };
+};
+
+export const loadUserSuccessful = (payload) => {
+  console.log('success loader')
+  return {
+    type: LOAD_USER_SUCCESSFUL,
+    payload: { payload },
+  };
+};
+
+export const loadUserError = (error) => {
+  return {
+    type: LOAD_USER_ERROR,
+    payload: error,
+  };
+};

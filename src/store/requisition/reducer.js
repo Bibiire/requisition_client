@@ -8,13 +8,14 @@ import {
   UPDATE_REQUISITION_SUCCESSFUL,
   UPDATE_REQUISITION,
   API_ERROR,
+  CLEAR_MSG
   // LOGOUT_USER,
   // LOGOUT_USER_SUCCESS,
 } from './actionTypes';
 
 const initialState = {
   requestDetails: null,
-  reqError: 'aaa',
+  reqError: '',
   requests: null,
   loading: false,
   successMsg: false,
@@ -22,16 +23,24 @@ const initialState = {
 
 const requisition = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_MSG:
+      state = {
+        ...state,
+        loading: false,
+        successMsg: false,
+      };
+      break;
     case CREATE_REQUISITION:
       state = {
         ...state,
         loading: false,
+        successMsg: false,
       };
       break;
     case CREATE_REQUISITION_SUCCESSFUL:
       state = {
         ...state,
-        successMsg: true,
+        successMsg: 'Requisition Created Successfully',
         requests: [action.payload, ...state.requests],
         loading: false,
       };
@@ -77,7 +86,6 @@ const requisition = (state = initialState, action) => {
       break;
 
     case UPDATE_REQUISITION_SUCCESSFUL:
-      console.log(action);
       state = {
         ...state,
         successMsg: true,
@@ -86,7 +94,6 @@ const requisition = (state = initialState, action) => {
         ),
         // loading: false,
       };
-      console.log(state.requests);
       break;
 
     // case LOGOUT_USER_SUCCESS:

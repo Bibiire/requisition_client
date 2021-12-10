@@ -6,6 +6,7 @@ import {
   GET_REQUISITION,
   FETCH_REQUISITION_DETAILS,
   UPDATE_REQUISITION,
+  CLEAR_MSG,
 } from './actionTypes';
 import {
   apiError,
@@ -27,11 +28,10 @@ import {
 function* createRequisition({ payload }) {
   try {
     const response = yield call(createRequestService, payload);
+    console.log(response);
     // Todo: -----> check the response
     yield put(createRequisitionSuccessful(response.data.requisition));
   } catch (error) {
-    console.log('error');
-    console.log(error.response.data);
     yield put(apiError(error.response.data));
   }
 }
@@ -40,7 +40,7 @@ function* fetchRequisition(requestParam) {
   let response;
   try {
     response = yield call(getRequestService, requestParam);
-    console.log(response);
+    console.log(response)
     yield put(fetchRequisitionSuccessful(response.data));
   } catch (error) {
     yield put(apiError(error));

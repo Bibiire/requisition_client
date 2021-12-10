@@ -31,6 +31,15 @@ class Requisition extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      requestParams: {
+        // startdate: moment().format(),
+        // endDate: moment().format(),
+
+        startdate: '',
+        endDate: '',
+        departmentid: '',
+        status: '',
+      },
       openModal: false,
       editData: null,
       modalTitle: '',
@@ -68,9 +77,10 @@ class Requisition extends Component {
     };
     this.reportHandler = this.reportHandler.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
-    this.AddRequisition = this.AddRequisition.bind(this);
     this.editRequestModalHandler = this.editRequestModalHandler.bind(this);
     this.addRequestModalHandler = this.addRequestModalHandler.bind(this);
+    this.fetchRequisitionHandler = this.fetchRequisitionHandler.bind(this);
+    this.fetchRequisitionByDate = this.fetchRequisitionByDate.bind(this);
     this.previewRequestModalHandler = this.previewRequestModalHandler.bind(
       this
     );
@@ -104,7 +114,7 @@ class Requisition extends Component {
     }));
   }
 
-  addRequestModalHandler() {
+  addRequestModalHandler(value) {
     this.setState((prevState) => ({
       openModal: !prevState.openModal,
       modalTitle: 'Add Request',
@@ -113,23 +123,30 @@ class Requisition extends Component {
     }));
   }
 
-  AddRequisition() {
-    return (
-      <Col md={3}>
-        <Card
-          style={{ height: '147px' }}
-          className="d-flex align-items-center justify-content-around add-form-card"
-          onClick={this.addRequestModalHandler}
-        >
-          <i className="fas fa-plus add-form-icon" />
-        </Card>
-      </Col>
-    );
+  fetchRequisitionHandler(value) {
+    let params = {
+      ...this.state.requestParams,
+    };
+    if (value.name === 'All') {
+      params[value.type.toLowerCase()] = '';
+    } else {
+      params[value.type.toLowerCase()] = value.id;
+    }
+    this.setState({
+      requestParams: params,
+    });
+    this.props.fetchRequisition(params);
+  }
+
+  fetchRequisitionByDate(e) {
+    let dateParams = {};
+    dateParams['id'] = e.target.value;
+    dateParams['type'] = 'startdate';
+    this.fetchRequisitionHandler(dateParams);
   }
 
   componentDidMount() {
     this.props.fetchRequisition();
-    this.props.fetchVendor();
     this.props.fetchDepartment();
   }
 
@@ -142,10 +159,10 @@ class Requisition extends Component {
       openModal,
       editData,
     } = this.state;
-
+    console.log(this.props.successMsg);
     return (
       <React.Fragment>
-        {this.props.successMsg && <Alert />}
+        {this.props.successMsg && <Alert title={this.props.successMsg} />}
         <div className="page-content">
           <Container fluid>
             <Breadcrumbs
@@ -155,7 +172,15 @@ class Requisition extends Component {
             <Row>
               <Col xl={12}>
                 <Row>
-                  <this.AddRequisition />
+                  <Col md={3}>
+                    <Card
+                      style={{ height: '147px' }}
+                      className="d-flex align-items-center justify-content-around add-form-card"
+                      onClick={this.addRequestModalHandler}
+                    >
+                      <i className="fas fa-plus add-form-icon" />
+                    </Card>
+                  </Col>
                   <MiniWidgets reports={reports} onClick={this.reportHandler} />
                 </Row>
 
@@ -171,7 +196,8 @@ class Requisition extends Component {
                   }
                   updateRequestHandler={this.props.updateRequisition}
                   departments={this.props.departments}
-                  requisitionFilterHandle={this.props.fetchRequisitionByDpt}
+                  requisitionFilterHandle={this.fetchRequisitionHandler}
+                  onChangeDate={this.fetchRequisitionByDate}
                 />
 
                 {/* Requisition form Modal  */}
@@ -182,12 +208,12 @@ class Requisition extends Component {
                 >
                   {modalContent === 'editForm' ? (
                     <RequestForm
-                      vendors={this.props.vendors}
+                      // vendors={this.props.vendors}
                       editData={editData}
                     />
                   ) : modalContent === 'addForm' ? (
                     <RequestForm
-                      vendors={this.props.vendors}
+                      // vendors={this.props.vendors}
                       editData={editData}
                       createRequest={this.props.createRequisition}
                       closeModal={this.toggleModal}

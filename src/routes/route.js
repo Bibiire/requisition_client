@@ -8,13 +8,11 @@ const AppRoute = ({
   auth: { isAuthenticated, loading },
   ...rest
 }) => {
-  console.log(isAuthenticated);
-  console.log(loading);
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (isAuthenticated !== null && !isAuthenticated && !loading) {
+        if (!isAuthenticated && loading) {
           return (
             <Redirect
               to={{ pathname: '/login', state: { from: props.location } }}

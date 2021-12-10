@@ -46,7 +46,6 @@ const RequestForm = ({ editData }) => {
 
   const handleValidSubmit = (event, values) => {
     // i am in
-    console.log('i am in');
   };
 
   const OnChangeSelectHandler = (value, field) => {

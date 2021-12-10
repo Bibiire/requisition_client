@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Card,
-  CardBody,
-} from 'reactstrap';
+import Moment from 'moment';
+import { Card, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { MDBDataTable } from 'mdbreact';
 import '../../../assets/scss/common/datatables.scss';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import { FilterCard } from './components/index';
-import { data } from './data';
+import { data, dateRangeParams } from './data';
+import { LoadingCard } from '../../../components/Common/index';
 
 const RequisitionTable = ({
   editModal,
@@ -17,7 +16,8 @@ const RequisitionTable = ({
   updateRequestHandler,
   loading,
   departments,
-  requisitionFilterHandle
+  requisitionFilterHandle,
+  onChangeDate,
 }) => {
   // const [menu, setMenu] = useState(false);
   const [filter, showFilter] = useState(false);
@@ -34,7 +34,7 @@ const RequisitionTable = ({
     const cloneRowsData = requestData.map((request) => {
       const newRequest = {
         item: request.itemName.toUpperCase(),
-        date: request.createdAt,
+        date: Moment(request.createdAt).format('l'),
         status: (
           <div
             className={` font-size-12 badge badge-soft-${
@@ -106,9 +106,10 @@ const RequisitionTable = ({
 
   const updateDataHandler = (row, statusValue) => {
     const editedData = {
-      ...row, status : statusValue
-    }
-    updateRequestHandler(editedData)
+      ...row,
+      status: statusValue,
+    };
+    updateRequestHandler(editedData);
   };
 
   const editDataHandler = (row) => {
@@ -132,10 +133,15 @@ const RequisitionTable = ({
               >
                 <i className=" ri-filter-3-line font-size-18 " />
               </span>
-              <select className="custom-select custom-select-sm">
-                <option defaultValue>This Months</option>
-                <option value="1">Today</option>
-                <option value="2">7 days</option>
+              <select
+                onChange={onChangeDate}
+                className="custom-select custom-select-sm"
+              >
+                {dateRangeParams.map((date) => (
+                  <option key={date.id} value={date.value}>
+                    {date.name}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -150,7 +156,7 @@ const RequisitionTable = ({
           {!loading && newData !== null ? (
             <MDBDataTable responsive data={newData} className="mt-2" />
           ) : (
-            <p> Loading... </p>
+            <LoadingCard />
           )}
         </CardBody>
       </Card>

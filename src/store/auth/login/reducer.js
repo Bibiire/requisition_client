@@ -7,7 +7,7 @@ import {
 } from './actionTypes';
 
 const initialState = {
-  loginError: 'aaa',
+  loginError: null,
   message: null,
   loading: false,
 };
@@ -17,6 +17,7 @@ const login = (state = initialState, action) => {
     case CHECK_LOGIN:
       state = {
         ...state,
+        loginError: null,
         loading: true,
       };
       break;

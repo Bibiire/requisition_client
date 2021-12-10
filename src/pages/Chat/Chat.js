@@ -35,8 +35,8 @@ import avatar4 from '../../assets/images/users/avatar-4.jpg';
 import avatar6 from '../../assets/images/users/avatar-6.jpg';
 
 let username = 'Admin';
-if (sessionStorage.getItem('authUser')) {
-  const obj = JSON.parse(sessionStorage.getItem('authUser'));
+if (sessionStorage.getItem(process.env.REACT_APP_USERSTORAGE)) {
+  const obj = JSON.parse(sessionStorage.getItem(process.env.REACT_APP_USERSTORAGE));
   const uNm = obj.email.split('@')[0];
   username = uNm.charAt(0).toUpperCase() + uNm.slice(1);
 }

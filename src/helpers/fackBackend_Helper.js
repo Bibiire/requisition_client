@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Gets the logged in user data from local session 
 const getLoggedInUser = () => {
-    const user = localStorage.getItem('authUser');
+    const user = localStorage.getItem(process.env.REACT_APP_USERSTORAGE);
     if (user)
         return JSON.parse(user);
     return null;

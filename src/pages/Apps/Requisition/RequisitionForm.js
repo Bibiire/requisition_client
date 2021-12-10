@@ -3,10 +3,12 @@ import { Row, Col, FormGroup, Label, Button } from 'reactstrap';
 
 import { AvForm, AvField, AvInput } from 'availity-reactstrap-validation';
 
+import { connect } from 'react-redux';
+
 //select
 import Select from 'react-select';
 
-let options = [];
+import { fetchVendor, clearMsg } from '../../../store/actions';
 
 const qTypeOptions = [
   { value: 'set', label: 'Set' },
@@ -15,9 +17,19 @@ const qTypeOptions = [
   { value: 'bundle', label: 'bundle' },
 ];
 
-const RequestForm = ({ editData, vendors, createRequest, closeModal }) => {
+const RequestForm = ({
+  editData,
+  vendors,
+  successMsg,
+  createRequest,
+  closeModal,
+  fetchVendor,
+  clearMsg
+}) => {
   const [editedData] = useState(editData);
-  const [siLoading, setIsLoading] = useState(true);
+  const [vendorOptions, setVendorOptions] = useState([]);
+  const [siLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [defaultValues, setDefaultField] = useState({
     item: '',
     cost: '',
@@ -29,22 +41,38 @@ const RequestForm = ({ editData, vendors, createRequest, closeModal }) => {
   const [vendor, setvendor] = useState([{ value: 'TO', label: 'Dangote' }]);
 
   useEffect(() => {
-    if (localStorage.getItem('authUser')) {
-      const obj = JSON.parse(localStorage.getItem('authUser'));
+    fetchVendor();
+    clearMsg();
+    if (localStorage.getItem(process.env.REACT_APP_USERSTORAGE)) {
+      const obj = JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_USERSTORAGE)
+      );
       let id = obj?.id;
       setUserID(id);
     }
   }, []);
 
   useEffect(() => {
-    vendors.map((vendor) => {
-      const optionObj = {
-        value: vendor.id,
-        label: vendor.name,
-      };
-      options.push(optionObj);
-    });
-  }, []);
+    setLoading(true);
+    vendors !== null &&
+      vendors.map((vendor) => {
+        const optionObj = {
+          value: vendor.id,
+          label: vendor.name,
+        };
+        vendorOptions.push(optionObj);
+      });
+    setVendorOptions(vendorOptions);
+    setLoading(false);
+    setVendorOptions(vendorOptions);
+    setLoading(false);
+  }, [vendors]);
+
+  useEffect(() => {
+    if (successMsg) {
+      closeModal()
+    } 
+  }, [successMsg]);
 
   useEffect(() => {
     if (editData !== null) {
@@ -58,7 +86,7 @@ const RequestForm = ({ editData, vendors, createRequest, closeModal }) => {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [])
 
   const handleValidSubmit = (event, values) => {
     const requestForm = {
@@ -72,8 +100,7 @@ const RequestForm = ({ editData, vendors, createRequest, closeModal }) => {
       userId: userId,
       vendorId: vendor.value,
     };
-    console.log(requestForm)
-    // createRequest(requestForm);
+    createRequest(requestForm);
     // closeModal();
   };
 
@@ -81,11 +108,13 @@ const RequestForm = ({ editData, vendors, createRequest, closeModal }) => {
     if (field === 'qType') return setQType(value);
     setvendor(value);
   };
+
   return (
     <React.Fragment>
       <div>
+        {successMsg && <p className="text-danger"> {successMsg} </p>}
         <div id="addproduct-nav-pills-wizard" className="twitter-bs-wizard">
-          {!siLoading && (
+          {vendors !== null ? (
             <AvForm onValidSubmit={handleValidSubmit} model={defaultValues}>
               <Row>
                 <Col lg={8}>
@@ -108,9 +137,9 @@ const RequestForm = ({ editData, vendors, createRequest, closeModal }) => {
                     </Label>
                     <Select
                       name="q-type"
-                      // defaultValue={editedData !== null &&qTypeOptions[1]}
+                      // defaultValue={editedData !== null &&qTypevendorOptions[1]}
                       onChange={(e) => OnChangeSelectHandler(e, 'qType')}
-                      options={qTypeOptions}
+                      vendorOptions={qTypeOptions}
                       className="q-type select2-multiple"
                     />
                   </FormGroup>
@@ -137,10 +166,12 @@ const RequestForm = ({ editData, vendors, createRequest, closeModal }) => {
                       Vendor
                     </Label>
                     <Select
-                      defaultValue={editedData !== null &&options[0]}
+                      isClearable
+                      defaultValue={editedData !== null && vendorOptions[0]}
                       name="vendor"
                       onChange={(e) => OnChangeSelectHandler(e, 'vendor')}
-                      options={options}
+                      options={vendorOptions}
+                      isLoading={loading}
                       className="vendor select2-multiple"
                     />
                   </FormGroup>
@@ -193,6 +224,8 @@ const RequestForm = ({ editData, vendors, createRequest, closeModal }) => {
                 </Button>
               </div>
             </AvForm>
+          ) : (
+            <span> Loading Vendor data... </span>
           )}
         </div>
       </div>
@@ -200,4 +233,12 @@ const RequestForm = ({ editData, vendors, createRequest, closeModal }) => {
   );
 };
 
-export default RequestForm;
+const mapStatetoProps = (state) => {
+  const { loading, successMsg } = state.Requisition;
+  const { vendors } = state.Vendor;
+  return { vendors, loading, successMsg };
+};
+
+export default connect(mapStatetoProps, {
+  fetchVendor, clearMsg
+})(RequestForm);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Card, CardBody, Row, Col, Table } from 'reactstrap';
 import { groupArrObj } from '../../../../utils/utilities';
 import { Link } from 'react-router-dom';
+import { RequisitionAccordions } from '../components/index';
 
 class Cart extends Component {
   constructor(props) {
@@ -72,104 +73,9 @@ class Cart extends Component {
               <Card>
                 <CardBody>
                   <h3 className="mb-4">Nimco Group Requisition Summary</h3>
-                  <div className="table-responsive">
-                    <Table className="table-centered mb-0 table-nowrap">
-                      <thead className="bg-warning text-white">
-                        <tr>
-                          <th style={{ width: '20px' }}>More</th>
-                          <th style={{ width: '120px' }}>Department</th>
-                          <th>Supervisor</th>
-                          <th>Discount</th>
-                          <th>Total</th>
-                        </tr>
-                      </thead>
-                      {this.state.doneLoading && (
-                        <tbody>
-                          {typeof this.state.data !== null &&
-                          this.state.data.length === 0 ? (
-                            <p> No Data Found </p>
-                          ) : (
-                            this.state.data !== null &&
-                            Object.keys(this.state.data).map(
-                              (request, index) => (
-                                <tr key={index}>
-                                  <td
-                                    className="text-center"
-                                    onClick={() => this.viewMoreHandler()}
-                                  >
-                                    <i className="fas fa-chevron-down" />
-                                  </td>
-                                  <td>
-                                    <h5 className="font-size-14 text-truncate">
-                                      <Link to="#" className="text-dark">
-                                        {request}
-                                      </Link>
-                                    </h5>
-                                    <p className="mb-0 tex font-size-12 t-muted">
-                                      Total Items :{' '}
-                                      <span className="font-weight-medium">
-                                        {this.state.data[request].length}
-                                      </span>
-                                    </p>
-                                  </td>
-                                  <td>HR</td>
-                                  <td>
-                                    <b>₦</b>
-                                    0:00
-                                  </td>
-                                  <td style={{ width: '90px' }}>
-                                    <span>
-                                      <b>₦</b>{' '}
-                                      {this.sumAccount(
-                                        this.state.data[request],
-                                        'totalPrice'
-                                      )}
-                                    </span>
-                                  </td>
-                                </tr>
-                              )
-                            )
-                          )}
-                          <tr className="bg-light text-right">
-                            <th scope="row" colSpan="5">
-                              Sub Total :
-                            </th>
-
-                            <td>
-                              <b>₦</b>{' '}
-                              {this.sumAccount(this.props.data, 'totalPrice')}
-                            </td>
-                          </tr>
-                          <tr className="bg-light text-right">
-                            <th scope="row" colSpan="5">
-                              Discount :
-                            </th>
-
-                            <td>
-                              <b>₦</b>
-                              {this.state.discount}
-                            </td>
-                          </tr>
-                          <tr className="bg-light text-right">
-                            <th scope="row" colSpan="5">
-                              Total :
-                            </th>
-
-                            <td>
-                              <b>
-                                {this.sumAccount(this.props.data, 'totalPrice')}
-                              </b>
-                            </td>
-                          </tr>
-                        </tbody>
-                      )}
-                    </Table>
-                  </div>
-                  <Button className="mt-3 bg-warning">
-                    {' '}
-                    PDF Download{' '}
-                    <i className="fas fa-download font-size-14 mx-2" />
-                  </Button>
+                  {this.state.doneLoading && this.state.data && (
+                    <RequisitionAccordions reviewData={this.state.data} />
+                  )}
                 </CardBody>
               </Card>
             </Col>

@@ -8,7 +8,14 @@ import {
   CREATE_REQUISITION_SUCCESSFUL,
   FETCH_REQUISITION_SUCCESSFUL,
   API_ERROR,
+  CLEAR_MSG
 } from './actionTypes';
+
+export const clearMsg = ()=>{
+  return {
+    type: CLEAR_MSG,
+  };
+}
 
 export const createRequisition = (reqPayload) => {
   return {
@@ -50,7 +57,7 @@ export const updateRequisitionSuccessful = (payload) => {
     type: UPDATE_REQUISITION_SUCCESSFUL,
     payload: payload,
   };
-}
+};
 
 export const fetchRequisition = (payload) => {
   return {

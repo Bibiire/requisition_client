@@ -25,7 +25,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem('authUser')) {
+    if (localStorage.getItem(process.env.REACT_APP_USERSTORAGE)) {
       this.props.loadUser();
     }
   }
@@ -48,7 +48,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.props.auth);
     const Layout = this.getLayout();
 
     return (

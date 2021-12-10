@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 export const data = {
   columns: [
@@ -255,3 +256,21 @@ export const FilterDropDownData = {
     },
   ],
 };
+
+export const dateRangeParams = [
+  {
+    id: 1,
+    name: 'Today',
+    value: moment().format('YYYY-MM-DD hh:mm'),
+  },
+  {
+    id: 2,
+    name: 'This Week',
+    value: moment().isoWeekday(1).startOf('week').format('YYYY-MM-DD hh:mm'),
+  },
+  {
+    id: 3,
+    name: 'This Month',
+    value: moment().startOf('month').format('YYYY-MM-DD hh:mm'),
+  },
+];

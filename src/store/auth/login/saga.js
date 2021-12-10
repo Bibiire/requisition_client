@@ -22,7 +22,10 @@ function* loginUser({ payload: { user, history } }) {
       userName: user.username,
       password: user.password,
     });
-    localStorage.setItem('authUser', JSON.stringify(response.data.user));
+    localStorage.setItem(
+      process.env.REACT_APP_USERSTORAGE,
+      JSON.stringify(response.data.user)
+    );
     localStorage.setItem('userRole', JSON.stringify(response.data.role));
     saveAccessToken(response.data.token);
     yield put(loginUserSuccessful(response.data.user));
@@ -34,7 +37,7 @@ function* loginUser({ payload: { user, history } }) {
 
 function* logoutUser({ payload: { history } }) {
   try {
-    localStorage.removeItem('authUser');
+    localStorage.removeItem(process.env.REACT_APP_USERSTORAGE);
     if (process.env.REACT_APP_DEFAULTAUTH === 'firebase') {
       const response = yield call(fireBaseBackend.logout);
       yield put(logoutUserSuccess(response));

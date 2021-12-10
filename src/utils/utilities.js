@@ -32,18 +32,22 @@ export const saveRefreshToken = (token) => {
 
 export const userInfo = () => {
   const role = JSON.parse(localStorage.getItem('userRole'));
-  const authUser = JSON.parse(localStorage.getItem('authUser'));
+  const authUser = JSON.parse(
+    localStorage.getItem(process.env.REACT_APP_USERSTORAGE)
+  );
 
   return { role, authUser };
 };
 
 export const groupArrObj = (arr, groupBy) => {
-  let result = arr.reduce(function (r, a) {
-    r[a.user.departments[groupBy]] = r[a.user.departments[groupBy]] || [];
-    r[a.user.departments[groupBy]].push(a);
+  let result = arr
+    .filter((val) => val.status !== 1 && val.status !== 6)
+    .reduce(function (r, a) {
+      r[a.user.departments[groupBy]] = r[a.user.departments[groupBy]] || [];
+      r[a.user.departments[groupBy]].push(a);
 
-    return r;
-  }, Object.create(null));
+      return r;
+    }, Object.create(null));
 
   return result;
 };

@@ -1,19 +1,19 @@
-import firebase from "firebase/app";
+import firebase from 'firebase/app';
 
 // Add the Firebase products that you want to use
-import "firebase/auth";
-import "firebase/firestore";
+import 'firebase/auth';
+import 'firebase/firestore';
 
 class FirebaseAuthBackend {
   constructor(firebaseConfig) {
     if (firebaseConfig) {
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-      firebase.auth().onAuthStateChanged(user => {
+      firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          localStorage.setItem("authUser", JSON.stringify(user));
+          localStorage.setItem(process.env.REACT_APP_USERSTORAGE, JSON.stringify(user));
         } else {
-          localStorage.removeItem("authUser");
+          localStorage.removeItem(process.env.REACT_APP_USERSTORAGE);
         }
       });
     }
@@ -28,10 +28,10 @@ class FirebaseAuthBackend {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(
-          user => {
+          (user) => {
             resolve(firebase.auth().currentUser);
           },
-          error => {
+          (error) => {
             reject(this._handleError(error));
           }
         );
@@ -47,10 +47,10 @@ class FirebaseAuthBackend {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(
-          user => {
+          (user) => {
             resolve(firebase.auth().currentUser);
           },
-          error => {
+          (error) => {
             reject(this._handleError(error));
           }
         );
@@ -60,17 +60,18 @@ class FirebaseAuthBackend {
   /**
    * forget Password user with given details
    */
-  forgetPassword = email => {
+  forgetPassword = (email) => {
     return new Promise((resolve, reject) => {
       firebase
         .auth()
         .sendPasswordResetEmail(email, {
-          url: window.location.protocol + "//" + window.location.host + "/login"
+          url:
+            window.location.protocol + '//' + window.location.host + '/login',
         })
         .then(() => {
           resolve(true);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(this._handleError(error));
         });
     });
@@ -87,22 +88,25 @@ class FirebaseAuthBackend {
         .then(() => {
           resolve(true);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(this._handleError(error));
         });
     });
   };
 
-  setLoggeedInUser = user => {
-    localStorage.setItem("authUser", JSON.stringify(user));
+  setLoggeedInUser = (user) => {
+    localStorage.setItem(
+      process.env.REACT_APP_USERSTORAGE,
+      JSON.stringify(user)
+    );
   };
 
   /**
    * Returns the authenticated user
    */
   getAuthenticatedUser = () => {
-    if (!localStorage.getItem("authUser")) return null;
-    return JSON.parse(localStorage.getItem("authUser"));
+    if (!localStorage.getItem(process.env.REACT_APP_USERSTORAGE)) return null;
+    return JSON.parse(localStorage.getItem(process.env.REACT_APP_USERSTORAGE));
   };
 
   /**
@@ -122,7 +126,7 @@ let _fireBaseBackend = null;
  * Initilize the backend
  * @param {*} config
  */
-const initFirebaseBackend = config => {
+const initFirebaseBackend = (config) => {
   if (!_fireBaseBackend) {
     _fireBaseBackend = new FirebaseAuthBackend(config);
   }

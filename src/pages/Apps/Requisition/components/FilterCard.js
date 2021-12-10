@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FilterDropDownData } from '../data';
 import { RequisitionSummary } from './index';
 import { Modal } from '../../../../components/UiElement/index';
+import { userInfo } from '../../../../utils/utilities';
 
 import FilterDropDown from './filterDropdown';
 
@@ -9,8 +10,9 @@ const FilterCard = ({
   filterProp,
   departments,
   updateFilterHandler,
-  tableData
+  tableData,
 }) => {
+  console.log(userInfo().role[0]);
   const [openModal, setOpenModal] = useState(false);
   return (
     <>
@@ -26,11 +28,22 @@ const FilterCard = ({
                 dropDownData={FilterDropDownData.dropDownStatus}
                 title="Status"
               />
-              <FilterDropDown
-                updateFilterHandler={updateFilterHandler}
-                dropDownData={departments}
-                title="Department"
-              />
+              {userInfo().role[0] === 'GMD' && (
+                <FilterDropDown
+                  updateFilterHandler={updateFilterHandler}
+                  dropDownData={departments}
+                  title="Department"
+                />
+              )}
+
+              {userInfo().role[0] === 'MD' && (
+                <FilterDropDown
+                  updateFilterHandler={updateFilterHandler}
+                  dropDownData={departments}
+                  title="Department"
+                />
+              )}
+
               <span
                 style={{ cursor: 'pointer' }}
                 onClick={() => setOpenModal(!openModal)}

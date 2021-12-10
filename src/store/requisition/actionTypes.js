@@ -11,3 +11,4 @@ export const UPDATE_REQUISITION = 'UPDATE_REQUISITION';
 export const UPDATE_REQUISITION_SUCCESSFUL = 'UPDATE_REQUISITION_SUCCESSFUL';
 
 export const API_ERROR = 'api_failed';
+export const CLEAR_MSG = 'clear_msg'

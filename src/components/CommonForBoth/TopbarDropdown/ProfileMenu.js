@@ -29,8 +29,8 @@ class ProfileMenu extends Component {
 
   render() {
     let username = 'Admin';
-    if (localStorage.getItem('authUser')) {
-      const obj = JSON.parse(localStorage.getItem('authUser'));
+    if (localStorage.getItem(process.env.REACT_APP_USERSTORAGE)) {
+      const obj = JSON.parse(localStorage.getItem(process.env.REACT_APP_USERSTORAGE));
       const uNm = obj.email.split('@')[0];
       username = uNm.charAt(0).toUpperCase() + uNm.slice(1);
     }

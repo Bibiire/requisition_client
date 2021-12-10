@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardBody, Row, Col } from 'reactstrap';
+import Moment from 'moment';
 
 // Redux
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
+
+import { LoadingCard } from '../../../components/Common/index';
 
 // action
 import { fetchRequisitionDetails } from '../../../store/actions';
@@ -17,10 +20,10 @@ const RequisitionDetail = ({
   useEffect(() => {
     fetchRequisitionDetails(previewContentId.id);
   }, []);
-  
+
   return (
     <React.Fragment>
-      {!loading && requestDetails !== null && (
+      {!loading && requestDetails !== null ? (
         <div>
           {' '}
           <Row>
@@ -43,17 +46,26 @@ const RequisitionDetail = ({
                             </p>
                           </Col>
                           <Col xl={6}>
-                            <p> 20-05-2021 </p>
+                            <p>
+                              {' '}
+                              {Moment(requestDetails.createdAt).format(
+                                'l'
+                              )}{' '}
+                            </p>
                             <div
                               className={`badge badge-soft-${
-                                requestDetails.status === 'Pending'
+                                requestDetails.status === 1
                                   ? 'secondary'
-                                  : requestDetails.status === 'rejected'
+                                  : requestDetails.status === 6
                                   ? 'danger'
                                   : 'success'
                               } font-size-12`}
                             >
-                              {requestDetails.status}
+                              {requestDetails.status === 1
+                                ? 'Pending'
+                                : requestDetails.status === 6
+                                ? 'Rejected'
+                                : 'Approved'}
                             </div>
                           </Col>
                         </Row>
@@ -70,18 +82,19 @@ const RequisitionDetail = ({
                                 </li>
                                 <li>
                                   <i className="mdi mdi-circle-medium mr-1 align-middle"></i>{' '}
-                                  Unit Cost :{' '}
+                                  Unit Cost : ₦
                                   {requestDetails.unitPrice.toLocaleString()}
                                 </li>
                                 <li>
                                   <i className="mdi mdi-circle-medium mr-1 align-middle"></i>{' '}
-                                  Discount : 50000
+                                  Discount : ₦0:00
                                 </li>
                               </ul>
                               <div className="p-3 bg-light mb-4">
                                 <h5 className="font-size-14 mb-0">
                                   Total Cost{' '}
                                   <span className="float-right ml-2">
+                                    ₦
                                     {requestDetails.totalPrice.toLocaleString()}
                                   </span>
                                 </h5>
@@ -118,6 +131,8 @@ const RequisitionDetail = ({
             </Col>
           </Row>
         </div>
+      ) : (
+        <LoadingCard />
       )}
     </React.Fragment>
   );

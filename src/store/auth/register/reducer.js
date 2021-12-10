@@ -10,7 +10,7 @@ const initialState = {
   token: localStorage.getItem('token'),
   registrationError: null,
   user: null,
-  isAuthenticated: null,
+  isAuthenticated: false,
   message: null,
   loading: false,
 };

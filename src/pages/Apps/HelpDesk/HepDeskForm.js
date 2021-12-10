@@ -63,8 +63,6 @@ const HelpDeskForm = () => {
 
   const handleValidSubmit = (event, values) => {
     alert('Help desk');
-    console.log(values);
-    console.log(selectOption);
   };
 
   return (

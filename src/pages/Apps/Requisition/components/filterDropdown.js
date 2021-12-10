@@ -17,6 +17,9 @@ const FilterDropdown = ({
     setStatus(value.name);
     // setting type actions purpose
     if (value.name === 'All') return updateFilterHandler(value);
+    if (title === 'Department') {
+      updateFilterHandler({ ...value, type: 'departmentId' });
+    }
     updateFilterHandler({ ...value, type: title });
   };
   return (
@@ -36,10 +39,10 @@ const FilterDropdown = ({
           ))}
           <DropdownItem divider />
           <DropdownItem
-            onClick={() => statusHandler({ name: 'All', type: 'All' })}
+            onClick={() => statusHandler({ name: 'All', type: title })}
           >
             <i className="fas fa-times font-size-14 mr-2" />
-            Cancel
+            All
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>

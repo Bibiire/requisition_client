@@ -24,8 +24,6 @@ function* createVendor(payload) {
     // Todo: -----> check the response
     yield put(createVendorSuccessful(response.data));
   } catch (error) {
-    console.log('error');
-    console.log(error.response.data);
     yield put(apiError(error.response.data));
   }
 }

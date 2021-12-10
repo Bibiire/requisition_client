@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 //SweetAlert
 import SweetAlert from 'react-bootstrap-sweetalert';
 
-const UiSweetAlert = () => {
+const UiSweetAlert = ({ title }) => {
   const [alertState, setAlertState] = useState(true);
   return (
     <React.Fragment>
       {alertState ? (
         <SweetAlert
-          title="Item added Successfully."
+          title={title ? title : 'Item added Successfully.'}
           timeout={2000}
           style={{
             position: 'absolute',

@@ -36,7 +36,6 @@ export const loadUser = (payload) => {
 };
 
 export const loadUserSuccessful = (payload) => {
-  console.log('success loader')
   return {
     type: LOAD_USER_SUCCESSFUL,
     payload: { payload },

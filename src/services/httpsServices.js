@@ -6,26 +6,22 @@ class HttpService {
     this.baseUrl = process.env.REACT_APP_BASE_URL;
   }
 
-  postData = async (payload, url) => {
+  postData = async (payload, url) => { 
     return axios.post(this.baseUrl + url, payload);
   };
 
-  postDataWithToken = async (payload, url) => {
+  postDataWithToken = async (formData, url) => {
     // verifyToken(this.token);
-    const AuthStr = 'Bearer '.concat(this.token);
-    return axios
-      .post(this.baseUrl + url, payload, {
-        headers: { Authorization: AuthStr },
-      })
-      .then((res) => res);
+    return axios.post(this.baseUrl + url, formData)
   };
 
   getData = async (url) => {
     // verifyToken(this.token);
-    const AuthStr = 'Bearer '.concat(this.token);
-    return axios.get(this.baseUrl + url, {
-      headers: { Authorization: AuthStr },
-    });
+    // const AuthStr = 'Bearer '.concat(this.token);
+    return axios.get(
+      this.baseUrl + url
+      // , {headers: { Authorization: AuthStr },}
+    );
   };
 
   getDataWithoutToken = async (url) => {
@@ -34,9 +30,9 @@ class HttpService {
 
   getDataWithToken = async (url) => {
     // verifyToken(this.token);
-    const AuthStr = 'Bearer '.concat(this.token);
+    // const AuthStr = 'Bearer '.concat(this.token);
     return axios.get(this.baseUrl + url, {
-      headers: { Authorization: AuthStr },
+      headers: { 'x-auth-token': this.token },
     });
   };
 

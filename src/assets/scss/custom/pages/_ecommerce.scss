@@ -83,13 +83,13 @@
 
         .product-color-item{
             margin: 7px;
-            border: 2px solid $border-color;
+            border: 2px solid $secondary;
             border-radius: 4px;
         }
         &.active, &:hover{
             color: $primary;
             .product-color-item{
-                border-color: $primary !important;
+                border-color: $warning !important;
             }
         }
     }

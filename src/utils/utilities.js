@@ -1,7 +1,7 @@
-// import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
 export const getAccessToken = () => {
-  return localStorage.getItem(process.env.REACT_APP_TOKEN_NAME);
+  return localStorage.getItem('pra_token');
 };
 
 // export const verifyToken = (token) => {
@@ -50,4 +50,12 @@ export const groupArrObj = (arr, groupBy) => {
     }, Object.create(null));
 
   return result;
+};
+
+export const setAuthToken = (token) => {
+  if (token) {
+    axios.defaults.headers.common['x-auth-token'] = token;
+  } else {
+    delete axios.defaults.headers.common['x-auth-token'];
+  }
 };

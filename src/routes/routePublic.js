@@ -2,24 +2,26 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const AppRoute = ({
+const AppRoutePublic = ({
   component: Component,
   layout: Layout,
   auth: { isAuthenticated, loading },
   ...rest
 }) => {
+  console.log(isAuthenticated);
+  console.log(loading);
   return (
     <Route
       {...rest}
       render={(props) =>
         isAuthenticated && !loading ? (
+          <Redirect
+            to={{ pathname: '/app-dashboard', state: { from: props.location } }}
+          />
+        ) : (
           <Layout>
             <Component {...props} />
           </Layout>
-        ) : (
-          <Redirect
-            to={{ pathname: '/login', state: { from: props.location } }}
-          />
         )
       }
     />
@@ -32,4 +34,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(AppRoute);
+export default connect(mapStateToProps)(AppRoutePublic);

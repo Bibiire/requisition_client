@@ -34,7 +34,6 @@ class UiProgressbar extends Component {
                     </p>
 
                     <div>
-                      
                         <Progress className="mb-4" color="primary" value={25}></Progress>
                         <Progress className="mb-4" color="primary" value={50}></Progress>
                         <Progress className="mb-4" color="primary" value={75}></Progress>

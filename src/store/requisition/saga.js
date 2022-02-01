@@ -6,6 +6,7 @@ import {
   GET_REQUISITION,
   FETCH_REQUISITION_DETAILS,
   UPDATE_REQUISITION,
+  UPDATE_STATUS,
   CLEAR_MSG,
 } from './actionTypes';
 import {
@@ -14,6 +15,7 @@ import {
   fetchRequisitionSuccessful,
   fetchRequisitionDetailsSuccessful,
   updateRequisitionSuccessful,
+  updateStatusSuccessful,
 } from './actions';
 
 import {
@@ -22,28 +24,27 @@ import {
   getRequestDetailService,
   createRequestService,
   updateRequisitionService,
+  updateStatusService,
   getRequestServiceByStatus,
 } from '../../services/requisitionServices';
 
 function* createRequisition({ payload }) {
   try {
     const response = yield call(createRequestService, payload);
-    console.log(response);
     // Todo: -----> check the response
-    yield put(createRequisitionSuccessful(response.data.requisition));
+    yield put(createRequisitionSuccessful(response.data));
   } catch (error) {
+    console.log(error.response.data);
     yield put(apiError(error.response.data));
   }
 }
 
 function* fetchRequisition(requestParam) {
-  let response;
   try {
-    response = yield call(getRequestService, requestParam);
-    console.log(response)
+    let response = yield call(getRequestService, requestParam);
     yield put(fetchRequisitionSuccessful(response.data));
   } catch (error) {
-    yield put(apiError(error));
+    yield put(apiError(error.response.data));
   }
 }
 
@@ -52,6 +53,7 @@ function* fetchRequisitionDetails({ payload }) {
     const response = yield call(getRequestDetailService, payload);
     yield put(fetchRequisitionDetailsSuccessful(response.data));
   } catch (error) {
+    console.log(error?.response);
     yield put(apiError(error));
   }
 }
@@ -59,7 +61,17 @@ function* fetchRequisitionDetails({ payload }) {
 function* updateRequisition({ payload }) {
   try {
     const response = yield call(updateRequisitionService, payload);
-    yield put(updateRequisitionSuccessful(payload));
+    yield put(updateRequisitionSuccessful(response.data));
+  } catch (error) {
+    console.log(error.response);
+    yield put(apiError(error));
+  }
+}
+
+function* updateStatus({ payload }) {
+  try {
+    const response = yield call(updateStatusService, payload);
+    yield put(updateStatusSuccessful(response.data));
   } catch (error) {
     yield put(apiError(error));
   }
@@ -77,6 +89,10 @@ export function* watchFetchRequisition() {
   yield takeEvery(GET_REQUISITION, fetchRequisition);
 }
 
+export function* watchUpdateStatus() {
+  yield takeEvery(UPDATE_STATUS, updateStatus);
+}
+
 export function* watchUpdateRequisition() {
   yield takeEvery(UPDATE_REQUISITION, updateRequisition);
 }
@@ -87,6 +103,7 @@ function* requisitionSaga() {
     fork(watchFetchRequisition),
     fork(watchFetchRequisitionDetails),
     fork(watchUpdateRequisition),
+    fork(watchUpdateStatus),
   ]);
 }
 

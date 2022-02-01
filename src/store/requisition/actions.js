@@ -3,19 +3,21 @@ import {
   GET_REQUISITION,
   UPDATE_REQUISITION,
   UPDATE_REQUISITION_SUCCESSFUL,
+  UPDATE_STATUS,
+  UPDATE_STATUS_SUCCESSFUL,
   FETCH_REQUISITION_DETAILS,
   FETCH_REQUISITION_DETAILS_SUCCESSFUL,
   CREATE_REQUISITION_SUCCESSFUL,
   FETCH_REQUISITION_SUCCESSFUL,
   API_ERROR,
-  CLEAR_MSG
+  CLEAR_MSG,
 } from './actionTypes';
 
-export const clearMsg = ()=>{
+export const clearMsg = () => {
   return {
     type: CLEAR_MSG,
   };
-}
+};
 
 export const createRequisition = (reqPayload) => {
   return {
@@ -45,16 +47,34 @@ export const fetchRequisitionByDpt = (DepartmentId) => {
   };
 };
 
-export const updateRequisition = (updateData) => {
+export const updateRequisition = (updateData, id) => {
+  const payload ={
+    updateData, id
+  }
   return {
     type: UPDATE_REQUISITION,
-    payload: updateData,
+    payload,
   };
 };
 
 export const updateRequisitionSuccessful = (payload) => {
   return {
     type: UPDATE_REQUISITION_SUCCESSFUL,
+    payload: payload,
+  };
+};
+
+
+export const updateStatus = (updateData) => {
+  return {
+    type: UPDATE_STATUS,
+    payload: updateData,
+  };
+};
+
+export const updateStatusSuccessful = (payload) => {
+  return {
+    type: UPDATE_STATUS_SUCCESSFUL,
     payload: payload,
   };
 };

@@ -6,6 +6,8 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
+import { connect } from 'react-redux';
+
 //i18n
 import { withNamespaces } from 'react-i18next';
 
@@ -28,12 +30,8 @@ class ProfileMenu extends Component {
   }
 
   render() {
-    let username = 'Admin';
-    if (localStorage.getItem(process.env.REACT_APP_USERSTORAGE)) {
-      const obj = JSON.parse(localStorage.getItem(process.env.REACT_APP_USERSTORAGE));
-      const uNm = obj.email.split('@')[0];
-      username = uNm.charAt(0).toUpperCase() + uNm.slice(1);
-    }
+    let username = 'loading...';
+    username = this.props.userInfo ? this.props.userInfo.name : 'loading...';
 
     return (
       <React.Fragment>
@@ -52,7 +50,7 @@ class ProfileMenu extends Component {
               src={avatar2}
               alt="Header Avatar"
             />
-            <span className="d-none d-xl-inline-block ml-1 text-transform">
+            <span className="d-none d-xl-inline-block ml-1 text-transform text-capitalize">
               {username}
             </span>
             <i className="mdi mdi-chevron-down d-none ml-1 d-xl-inline-block"></i>
@@ -76,7 +74,10 @@ class ProfileMenu extends Component {
               {this.props.t('Lock screen')}
             </DropdownItem>
             <DropdownItem divider />
-            <DropdownItem className="text-danger" href="/logout">
+            <DropdownItem
+              className="text-danger"
+              onClick={() => this.props.logoutHandler()}
+            >
               <i className="ri-shut-down-line align-middle mr-1 text-danger"></i>{' '}
               {this.props.t('Logout')}
             </DropdownItem>

@@ -4,11 +4,6 @@ import { connect } from 'react-redux';
 import {
   Row,
   Col,
-  Form,
-  FormGroup,
-  InputGroup,
-  InputGroupAddon,
-  Input,
   Button,
   Dropdown,
   DropdownToggle,
@@ -29,7 +24,7 @@ import { withNamespaces } from 'react-i18next';
 import MegaMenu from './MegaMenu';
 
 // Redux Store
-import { toggleRightSidebar } from '../../store/actions';
+import { toggleRightSidebar, logoutUser } from '../../store/actions';
 
 //Import logo Images
 import logosmdark from '../../assets/images/logo-sm-dark.png';
@@ -217,7 +212,7 @@ class Header extends Component {
 
               <NotificationDropdown />
 
-              <ProfileMenu />
+              <ProfileMenu userInfo={this.props.user} logoutHandler={this.props.logoutUser}/>
             </div>
           </div>
         </header>
@@ -228,9 +223,10 @@ class Header extends Component {
 
 const mapStatetoProps = (state) => {
   const { layoutType } = state.Layout;
-  return { layoutType };
+  const { user } = state.Account;
+  return { layoutType, user };
 };
 
-export default connect(mapStatetoProps, { toggleRightSidebar })(
+export default connect(mapStatetoProps, { toggleRightSidebar, logoutUser })(
   withNamespaces()(Header)
 );

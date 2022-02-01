@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Moment from 'moment'
+import Moment from 'moment';
 import { Table, Row, Col, Card, CardBody, Container } from 'reactstrap';
 
 class BasicTable extends Component {
@@ -17,8 +17,8 @@ class BasicTable extends Component {
               <Table className="mb-0">
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Name</th>
+                    {/* <th>ID</th> */}
+                    {/* <th>Name</th> */}
                     <th>Request Item</th>
                     <th>Total Cost</th>
                     <th>Date</th>
@@ -27,27 +27,19 @@ class BasicTable extends Component {
                 </thead>
                 <tbody>
                   {this.props.tableData.map((data) => (
-                    <tr>
-                      <th scope="row">{data.id}</th>
-                      <td>{data.user?.firstName}</td>
-                      <td>{data.itemName}</td>
-                      <td>{data.totalPrice}</td>
-                      <td>{Moment(data.createdAt).format("l")}</td>
+                    <tr key={data._id}>
+                      <td className="text-capitalize">{data.itemName}</td>
+                      <td>₦ {data.totalPrice ? data.totalPrice : '0.00'}</td>
+                      <td>{Moment(data.createdAt).format('l')}</td>
                       <td>
                         <span
                           className={` font-size-12 badge badge-soft-${
-                            data.status === 1
-                              ? 'secondary'
-                              : data.status === 6
-                              ? 'danger'
-                              : 'success'
+                            data.approve.status === true ? 'success' : 'danger'
                           }`}
                         >
-                          {data.status === 1
-                            ? 'Pending'
-                            : data.status === 6
-                            ? 'Rejected'
-                            : 'Approved'}
+                          {data.approve.status === true
+                            ? 'Approve'
+                            : 'Rejected'}
                         </span>
                       </td>
                     </tr>

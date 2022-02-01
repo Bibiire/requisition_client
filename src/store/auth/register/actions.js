@@ -29,6 +29,7 @@ export const registerUserFailed = (error) => {
 };
 
 export const loadUser = (payload) => {
+  console.log('load user action')
   return {
     type: LOAD_USER,
     payload: { payload },

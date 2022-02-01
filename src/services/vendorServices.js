@@ -6,8 +6,14 @@ export const getVendorService = () => {
   return http.getDataWithToken(url);
 };
 
-export const createVendorService = (payload) => {
+export const createVendorService = ({payload}) => {
   const http = new HttpService();
   const url = 'Vendors';
   return http.postData(payload, url);
+};
+
+export const updateVendorService = ({payload}) => {
+  const http = new HttpService();
+  const url = `vendors/${payload._id}`;
+  return http.putData(payload, url);
 };

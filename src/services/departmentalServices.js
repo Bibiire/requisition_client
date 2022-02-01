@@ -3,7 +3,7 @@ import HttpService from './httpsServices';
 
 export const getDepartmentService = () => {
   const http = new HttpService();
-  const url = 'Departments';
+  const url = 'departments';
   return http.getDataWithToken(url);
 };
 

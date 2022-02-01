@@ -1,67 +1,32 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, Row, Col, Table } from 'reactstrap';
-import { groupArrObj } from '../../../../utils/utilities';
-import { Link } from 'react-router-dom';
+import { Card, CardBody, Row, Col } from 'reactstrap';
 import { RequisitionAccordions } from '../components/index';
 
 class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // requestSummary: [],
-      requestSummary: [],
-      // data: null,
-      doneLoading: false,
-      total: 0,
-      discount: 0,
-      subTotal: 0,
+      isLoading: true,
+      data: [],
     };
-    this.sumArray = this.sumArray.bind(this);
-    this.groupArr = this.groupArr.bind(this);
-    this.sumAccount = this.sumAccount.bind(this);
-    this.viewMoreHandler = this.viewMoreHandler.bind(this);
+    // this.sumArray = this.sumArray.bind(this);
   }
 
   componentDidMount() {
-    this.groupArr();
-    const discount = this.sumArray('discount');
-    const total = this.sumArray('total');
-    this.setState({
+    // filter the approve request
+    const newData = this.props.data.filter(
+      (data) => data.approve?.status === true && data.acc_check?.status !== true
+    );
+    const result = newData.reduce(function (r, a) {
+      r[a.departmentalId.name] = r[a.departmentalId.name] || [];
+      r[a.departmentalId.name].push(a);
+      return r;
+    }, Object.create(null));
+    this.setState(() => ({
       ...this.state,
-      total: total,
-      discount: discount,
-      doneLoading: true,
-    });
-  }
-
-  groupArr() {
-    const requestStructure = groupArrObj(this.props.data, 'name');
-    this.setState({
-      ...this.state,
-      data: requestStructure,
-    });
-  }
-
-  sumArray(field) {
-    let result = this.state.requestSummary
-      .map((item) => item[field])
-      .reduce((prev, next) => prev + next, 0);
-    return result;
-  }
-
-  sumAccount(data, field) {
-    let result = 0;
-    data.forEach((element) => {
-      result = result + element[field];
-    });
-    return result;
-  }
-
-  viewMoreHandler(id) {
-    this.setState({
-      ...this.state,
-      showMore: id,
-    });
+      data: result,
+      isLoading: false,
+    }));
   }
 
   render() {
@@ -73,7 +38,7 @@ class Cart extends Component {
               <Card>
                 <CardBody>
                   <h3 className="mb-4">Nimco Group Requisition Summary</h3>
-                  {this.state.doneLoading && this.state.data && (
+                  {!this.state.isLoading && this.state.data && (
                     <RequisitionAccordions reviewData={this.state.data} />
                   )}
                 </CardBody>

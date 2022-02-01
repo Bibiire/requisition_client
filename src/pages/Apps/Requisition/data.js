@@ -13,16 +13,28 @@ export const data = {
       label: 'Request ID',
     },
     {
-      field: 'item',
-      label: 'Request Item',
+      field: 'user',
+      label: 'User',
     },
-    // {
-    //   field: 'billingName',
-    //   label: 'Title Name',
-    // },
+    {
+      field: 'item',
+      label: 'Request',
+    },
     {
       field: 'total',
       label: 'Total',
+    },
+    {
+      field: 'discount',
+      label: 'Discount',
+    },
+    {
+      field: 'qty',
+      label: 'Qty',
+    },
+    {
+      field: 'vendor',
+      label: 'Vendor',
     },
     {
       field: 'date',
@@ -30,7 +42,7 @@ export const data = {
     },
     {
       field: 'status',
-      label: 'Payment Status',
+      label: 'Status',
     },
     {
       field: 'actions',

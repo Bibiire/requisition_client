@@ -7,8 +7,10 @@ import {
   FETCH_REQUISITION_DETAILS_SUCCESSFUL,
   UPDATE_REQUISITION_SUCCESSFUL,
   UPDATE_REQUISITION,
+  UPDATE_STATUS_SUCCESSFUL,
+  UPDATE_STATUS,
   API_ERROR,
-  CLEAR_MSG
+  CLEAR_MSG,
   // LOGOUT_USER,
   // LOGOUT_USER_SUCCESS,
 } from './actionTypes';
@@ -18,7 +20,7 @@ const initialState = {
   reqError: '',
   requests: null,
   loading: false,
-  successMsg: false,
+  successMsg: null,
 };
 
 const requisition = (state = initialState, action) => {
@@ -27,20 +29,20 @@ const requisition = (state = initialState, action) => {
       state = {
         ...state,
         loading: false,
-        successMsg: false,
+        successMsg: null,
       };
       break;
     case CREATE_REQUISITION:
       state = {
         ...state,
         loading: false,
-        successMsg: false,
+        // successMsg: false,
       };
       break;
     case CREATE_REQUISITION_SUCCESSFUL:
       state = {
         ...state,
-        successMsg: 'Requisition Created Successfully',
+        // successMsg: 'Requisition Created Successfully',
         requests: [action.payload, ...state.requests],
         loading: false,
       };
@@ -49,7 +51,8 @@ const requisition = (state = initialState, action) => {
     case GET_REQUISITION:
       state = {
         ...state,
-        successMsg: false,
+        requests: null,
+        // successMsg: false,
         loading: true,
       };
       break;
@@ -65,6 +68,7 @@ const requisition = (state = initialState, action) => {
     case FETCH_REQUISITION_DETAILS:
       state = {
         ...state,
+        requestDetails: null,
         loading: true,
       };
       break;
@@ -78,20 +82,25 @@ const requisition = (state = initialState, action) => {
       break;
 
     case UPDATE_REQUISITION:
+    case UPDATE_STATUS:
       state = {
         ...state,
-        successMsg: false,
+        // successMsg: false,
         // loading: true,
       };
       break;
 
     case UPDATE_REQUISITION_SUCCESSFUL:
+    case UPDATE_STATUS_SUCCESSFUL:
+      const index = state.requests.findIndex(
+        (request) => request._id === action.payload._id
+      );
+      const newArray = [...state.requests];
+      newArray[index] = action.payload;
       state = {
         ...state,
         successMsg: true,
-        requests: state.requests.map((req) =>
-          req.id === action.payload.id ? action.payload : req
-        ),
+        requests: newArray,
         // loading: false,
       };
       break;

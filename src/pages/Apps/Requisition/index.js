@@ -4,7 +4,7 @@ import { Container, Row, Col, Card } from 'reactstrap';
 //Import Breadcrumb
 import Breadcrumbs from '../../../components/Common/Breadcrumb';
 
-import { Alert } from '../../../components/Common/index';
+import { Alert, Notification } from '../../../components/Common/index';
 import './Requisition.scss';
 
 //Import Components
@@ -13,6 +13,8 @@ import DataTable from './RequisitionTable';
 import { Modal } from '../../../components/UiElement/index';
 import RequestForm from './RequisitionForm';
 import RequisitionDetails from './RequisitionDetails';
+import CommentForm from './CommentForm';
+import { RequisitionSummary } from './components/index';
 
 // Redux
 import { connect } from 'react-redux';
@@ -26,7 +28,9 @@ import {
   fetchVendor,
   createRequisition,
   fetchDepartment,
+  updateStatus,
 } from '../../../store/actions';
+
 class Requisition extends Component {
   constructor(props) {
     super(props);
@@ -40,13 +44,25 @@ class Requisition extends Component {
         departmentid: '',
         status: '',
       },
+      roleIndex: 0,
       openModal: false,
       editData: null,
+      requestContent: null,
       modalTitle: '',
       previewContent: null,
       breadcrumbItems: [
         { title: 'Prananet', link: '#' },
         { title: 'Requisition', link: '#' },
+      ],
+      pendingReport: [
+        {
+          icon: 'far fa-minus-circle',
+          title: 'Pending',
+          value: '209',
+          rate: '2.4%',
+          desc: 'From previous period',
+          bg: 'secondary',
+        },
       ],
       reports: [
         {
@@ -79,15 +95,28 @@ class Requisition extends Component {
     this.toggleModal = this.toggleModal.bind(this);
     this.editRequestModalHandler = this.editRequestModalHandler.bind(this);
     this.addRequestModalHandler = this.addRequestModalHandler.bind(this);
-    this.fetchRequisitionHandler = this.fetchRequisitionHandler.bind(this);
-    this.fetchRequisitionByDate = this.fetchRequisitionByDate.bind(this);
+    this.addCommentHandler = this.addCommentHandler.bind(this);
     this.previewRequestModalHandler = this.previewRequestModalHandler.bind(
       this
     );
+    this.onChangeView = this.onChangeView.bind(this);
+    this.summaryModalHandler = this.summaryModalHandler.bind(this);
   }
 
   reportHandler() {
     alert('report');
+  }
+
+  onChangeView(role) {
+    let roleValue = 0;
+    if (role === 'authorizer' || role === 'acc_checker') {
+      roleValue = 1;
+    }
+    this.props.fetchRequisition({ role });
+    this.setState({
+      ...this.state,
+      roleIndex: roleValue,
+    });
   }
 
   toggleModal() {
@@ -102,6 +131,15 @@ class Requisition extends Component {
       editData: value,
       modalTitle: 'Edit Request',
       modalContent: 'editForm',
+    }));
+  }
+
+  summaryModalHandler(e, value) {
+    this.setState((prevState) => ({
+      openModal: !prevState.openModal,
+      // editData: value,
+      modalTitle: 'Request Departmental Summary',
+      modalContent: 'requestSummary',
     }));
   }
 
@@ -123,31 +161,19 @@ class Requisition extends Component {
     }));
   }
 
-  fetchRequisitionHandler(value) {
-    let params = {
-      ...this.state.requestParams,
-    };
-    if (value.name === 'All') {
-      params[value.type.toLowerCase()] = '';
-    } else {
-      params[value.type.toLowerCase()] = value.id;
-    }
-    this.setState({
-      requestParams: params,
-    });
-    this.props.fetchRequisition(params);
-  }
-
-  fetchRequisitionByDate(e) {
-    let dateParams = {};
-    dateParams['id'] = e.target.value;
-    dateParams['type'] = 'startdate';
-    this.fetchRequisitionHandler(dateParams);
+  addCommentHandler(requestValue) {
+    this.setState((prevState) => ({
+      openModal: !prevState.openModal,
+      modalTitle: 'Add Comment',
+      modalContent: 'addComment',
+      requestContent: requestValue,
+      editData: null,
+    }));
   }
 
   componentDidMount() {
-    this.props.fetchRequisition();
     this.props.fetchDepartment();
+    this.props.fetchRequisition();
   }
 
   render() {
@@ -158,46 +184,61 @@ class Requisition extends Component {
       breadcrumbItems,
       openModal,
       editData,
+      pendingReport,
     } = this.state;
-    console.log(this.props.successMsg);
     return (
       <React.Fragment>
-        {this.props.successMsg && <Alert title={this.props.successMsg} />}
+        {this.props.successMsg === true && (
+          <Notification title={this.props.successMsg} />
+        )}
         <div className="page-content">
+          <Notification />
           <Container fluid>
             <Breadcrumbs
+              onChange={(value) => this.onChangeView(value)}
+              roles={this.props.user.roles.length > 1 && this.props.user.roles}
               title="Requisition"
               breadcrumbItems={breadcrumbItems}
             />
             <Row>
               <Col xl={12}>
                 <Row>
-                  <Col md={3}>
-                    <Card
-                      style={{ height: '147px' }}
-                      className="d-flex align-items-center justify-content-around add-form-card"
-                      onClick={this.addRequestModalHandler}
-                    >
-                      <i className="fas fa-plus add-form-icon" />
-                    </Card>
-                  </Col>
+                  {this.props.user?.roles[0] === 'user' ? (
+                    <Col md={3}>
+                      <Card
+                        style={{ height: '147px' }}
+                        className="d-flex align-items-center justify-content-around add-form-card"
+                        onClick={this.addRequestModalHandler}
+                      >
+                        <i className="fas fa-plus add-form-icon" />
+                      </Card>
+                    </Col>
+                  ) : (
+                    <MiniWidgets
+                      reports={pendingReport}
+                      onClick={this.reportHandler}
+                    />
+                  )}
                   <MiniWidgets reports={reports} onClick={this.reportHandler} />
                 </Row>
 
                 {/* Requisition Table */}
                 <DataTable
+                  user={this.props.user.roles[this.state.roleIndex]}
                   editModal={(value) =>
                     this.editRequestModalHandler(this, value)
                   }
+                  summaryPreview={this.summaryModalHandler}
                   requestData={this.props.requests}
                   loading={this.props.loading}
                   previewModal={(value) =>
                     this.previewRequestModalHandler(this, value)
                   }
-                  updateRequestHandler={this.props.updateRequisition}
+                  updateStatus={this.props.updateStatus}
                   departments={this.props.departments}
                   requisitionFilterHandle={this.fetchRequisitionHandler}
-                  onChangeDate={this.fetchRequisitionByDate}
+                  onChangeRequest={this.props.fetchRequisition}
+                  addCommentHandler={this.addCommentHandler}
                 />
 
                 {/* Requisition form Modal  */}
@@ -208,14 +249,21 @@ class Requisition extends Component {
                 >
                   {modalContent === 'editForm' ? (
                     <RequestForm
-                      // vendors={this.props.vendors}
+                      updateRequest={this.props.updateRequisition}
                       editData={editData}
+                      closeModal={this.toggleModal}
                     />
                   ) : modalContent === 'addForm' ? (
                     <RequestForm
-                      // vendors={this.props.vendors}
-                      editData={editData}
                       createRequest={this.props.createRequisition}
+                      closeModal={this.toggleModal}
+                    />
+                  ) : modalContent === 'requestSummary' ? (
+                    <RequisitionSummary data={this.props.requests} />
+                  ) : modalContent === 'addComment' ? (
+                    <CommentForm
+                      updateRequest={this.props.updateRequisition}
+                      requestContent={this.state.requestContent}
                       closeModal={this.toggleModal}
                     />
                   ) : (
@@ -237,7 +285,8 @@ const mapStatetoProps = (state) => {
   const { requests, loading, successMsg } = state.Requisition;
   const { vendors } = state.Vendor;
   const { departments } = state.Department;
-  return { requests, vendors, departments, loading, successMsg };
+  const { user } = state.Account;
+  return { user, requests, vendors, departments, loading, successMsg };
 };
 
 export default withRouter(
@@ -248,5 +297,6 @@ export default withRouter(
     updateRequisition,
     fetchDepartment,
     createRequisition,
+    updateStatus,
   })(Requisition)
 );

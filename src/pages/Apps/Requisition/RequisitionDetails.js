@@ -18,12 +18,12 @@ const RequisitionDetail = ({
   loading,
 }) => {
   useEffect(() => {
-    fetchRequisitionDetails(previewContentId.id);
+    fetchRequisitionDetails(previewContentId._id);
   }, []);
 
   return (
     <React.Fragment>
-      {!loading && requestDetails !== null ? (
+      {requestDetails !== null ? (
         <div>
           {' '}
           <Row>
@@ -41,12 +41,26 @@ const RequisitionDetail = ({
                             <h5 className="mt-1 mb-3 text-capitalize">
                               {requestDetails?.itemName}
                             </h5>
-                            <p className="mt-3">
-                              {requestDetails?.description}
-                            </p>
+                            <hr className="my-4 text-left" />
+                            <h5 className="font-size-14 text-primary">
+                              Product Image
+                            </h5>
+                            {requestDetails?.imgUrl ? (
+                              <Link
+                                target={'_blank'}
+                                to={{
+                                  pathname: requestDetails?.imgUrl,
+                                }}
+                                className="text-primary"
+                              >
+                                Click To View Invoice
+                              </Link>
+                            ) : (
+                              'No attached file'
+                            )}
                           </Col>
                           <Col xl={6}>
-                            <p>
+                            <p className="pb-0 mb-0">
                               {' '}
                               {Moment(requestDetails.createdAt).format(
                                 'l'
@@ -54,18 +68,125 @@ const RequisitionDetail = ({
                             </p>
                             <div
                               className={`badge badge-soft-${
-                                requestDetails.status === 1
+                                requestDetails?.inputter?.status === false
                                   ? 'secondary'
-                                  : requestDetails.status === 6
+                                  : requestDetails?.approve?.status === true
+                                  ? 'success'
+                                  : requestDetails?.inputter?.status === true &&
+                                    (requestDetails?.verify?.status === false ||
+                                      requestDetails?.authorize?.status ===
+                                        false ||
+                                      requestDetails?.approve?.status === false)
                                   ? 'danger'
-                                  : 'success'
+                                  : 'warning'
                               } font-size-12`}
                             >
-                              {requestDetails.status === 1
+                              {requestDetails?.inputter?.status === false
                                 ? 'Pending'
-                                : requestDetails.status === 6
+                                : requestDetails?.approve?.status === true
+                                ? 'Approved'
+                                : requestDetails?.inputter?.status === true &&
+                                  (requestDetails?.verify?.status === false ||
+                                    requestDetails?.authorize?.status ===
+                                      false ||
+                                    requestDetails?.approve?.status === false)
                                 ? 'Rejected'
-                                : 'Approved'}
+                                : 'On-going'}
+                            </div>
+                            <div className="product-color mt-3">
+                              <Row>
+                                <Col xs="auto">
+                                  <div>
+                                    <Link
+                                      to="#"
+                                      className={`${
+                                        requestDetails?.inputter?.status ===
+                                          true && 'active'
+                                      }`}
+                                    >
+                                      <div className="product-color-item">
+                                        <div className="avatar-xs">
+                                          <span className="avatar-title bg-transparent text-body font-size-12">
+                                            P
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </Link>
+                                    <span className="d-block text-center font-size-12">
+                                      {requestDetails.user.name}
+                                    </span>
+                                  </div>
+                                </Col>
+                                <Col xs="auto">
+                                  <div>
+                                    <Link
+                                      to="#"
+                                      className={`${
+                                        requestDetails?.verify && 'active'
+                                      }`}
+                                    >
+                                      <div className="product-color-item">
+                                        <div className="avatar-xs">
+                                          <span className="avatar-title bg-transparent text-body font-size-12">
+                                            S
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </Link>
+                                    <span className="d-block text-center font-size-12">
+                                      {' '}
+                                      {
+                                        requestDetails.verify?.verifier?.name
+                                      }{' '}
+                                    </span>
+                                  </div>
+                                </Col>
+                                <Col xs="auto">
+                                  <div>
+                                    <Link
+                                      to="#"
+                                      className={`${
+                                        requestDetails?.authorize && 'active'
+                                      }`}
+                                    >
+                                      <div className="product-color-item">
+                                        <div className="avatar-xs">
+                                          <span className="avatar-title bg-transparent text-body py-1 font-size-12">
+                                            MD
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </Link>
+                                    <span className="d-block text-center font-size-12">
+                                      {
+                                        requestDetails.authorize?.authorizer
+                                          .name
+                                      }
+                                    </span>
+                                  </div>
+                                </Col>
+                                <Col xs="auto">
+                                  <div>
+                                    <Link
+                                      to="#"
+                                      className={`${
+                                        requestDetails?.approve && 'active'
+                                      }`}
+                                    >
+                                      <div className="product-color-item">
+                                        <div className="avatar-xs">
+                                          <span className="avatar-title bg-transparent text-body font-size-12">
+                                            GMD
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </Link>
+                                    <span className="d-block text-center font-size-12">
+                                      {requestDetails.approve?.approver?.name}
+                                    </span>
+                                  </div>
+                                </Col>
+                              </Row>
                             </div>
                           </Col>
                         </Row>
@@ -83,7 +204,7 @@ const RequisitionDetail = ({
                                 <li>
                                   <i className="mdi mdi-circle-medium mr-1 align-middle"></i>{' '}
                                   Unit Cost : ₦
-                                  {requestDetails.unitPrice.toLocaleString()}
+                                  {requestDetails?.unitPrice?.toLocaleString()}
                                 </li>
                                 <li>
                                   <i className="mdi mdi-circle-medium mr-1 align-middle"></i>{' '}
@@ -95,7 +216,7 @@ const RequisitionDetail = ({
                                   Total Cost{' '}
                                   <span className="float-right ml-2">
                                     ₦
-                                    {requestDetails.totalPrice.toLocaleString()}
+                                    {requestDetails?.totalPrice?.toLocaleString()}
                                   </span>
                                 </h5>
                               </div>
@@ -118,10 +239,30 @@ const RequisitionDetail = ({
                         </Row>
                         <div
                           style={{ minHeight: '100px' }}
-                          className="bg-light py-2 px-4"
+                          className="bg-light py-2 px-2"
                         >
-                          Note:
-                          <p> Reviewer note regarding the request if any...</p>
+                          {requestDetails.comments.length !== 0 &&
+                            requestDetails.comments.map((comment) => (
+                              <div key={comment._id}>
+                                <Card className="mb-2">
+                                  <CardBody
+                                    className={
+                                      requestDetails.user.name !==
+                                        comment.userId.name && 'text-right'
+                                    }
+                                  >
+                                    <h5 className="text-capitalize font-size-14">
+                                      {comment.userId.name}
+                                    </h5>
+                                    <p>
+                                      {comment.value
+                                        ? comment.value
+                                        : 'No Comment'}
+                                    </p>
+                                  </CardBody>
+                                </Card>
+                              </div>
+                            ))}
                         </div>
                       </div>
                     </Col>

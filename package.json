@@ -76,6 +76,7 @@
     "react-sparklines": "^1.7.0",
     "react-star-ratings": "^2.3.0",
     "react-switch": "^5.0.1",
+    "react-to-print": "^2.14.4",
     "react-toastr": "^3.0.0",
     "reactstrap": "^8.4.1",
     "redux": "^4.0.5",

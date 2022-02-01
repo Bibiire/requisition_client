@@ -27,7 +27,7 @@ import logodark from '../../assets/images/logo-dark.png';
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: 'Hr', password: 'password@123' };
+    this.state = { username: 'seun', password: 'password@123' };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -79,7 +79,11 @@ class Login extends Component {
 
                           {this.props.loginError && this.props.loginError ? (
                             <Alert color="danger">
-                              {this.props.loginError?.message}
+                              {this.props.loginError.errors.map(
+                                (error, index) => (
+                                  <span key={index}> {error.msg} </span>
+                                )
+                              )}
                             </Alert>
                           ) : null}
 
@@ -182,7 +186,7 @@ class Login extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loginError } = state.Login;
+  const { loginError } = state.Account;
   return { loginError };
 };
 

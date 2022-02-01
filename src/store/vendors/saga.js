@@ -5,16 +5,19 @@ import {
   // FETCH_REQUISITION_SUCCESSFUL,
   CREATE_VENDOR,
   GET_VENDORS,
+  UPDATE_VENDOR
 } from './actionTypes';
 import {
   apiError,
   createVendorSuccessful,
   fetchVendorSuccessful,
+  updateVendorSuccessful
 } from './actions';
 
 import {
   getVendorService,
   createVendorService,
+  updateVendorService
 } from '../../services/vendorServices';
 
 //If user is login then dispatch redux action's are directly from here.
@@ -37,6 +40,18 @@ function* fetchVendor() {
   }
 }
 
+function* updateVendor(payload) {
+  try {
+    const response = yield call(updateVendorService, payload);
+    console.log(response.data)
+    yield put(updateVendorSuccessful(response.data));
+  } catch (error) {
+    console.log(error)
+    yield put(apiError(error));
+  }
+}
+
+
 export function* watchCreateVendor() {
   yield takeEvery(CREATE_VENDOR, createVendor);
 }
@@ -45,8 +60,12 @@ export function* watchFetchVendor() {
   yield takeEvery(GET_VENDORS, fetchVendor);
 }
 
+export function* watchUpdateVendor() {
+  yield takeEvery(UPDATE_VENDOR, updateVendor);
+}
+
 function* vendorSaga() {
-  yield all([fork(watchCreateVendor), fork(watchFetchVendor)]);
+  yield all([fork(watchCreateVendor), fork(watchFetchVendor),fork(watchUpdateVendor)]);
 }
 
 export default vendorSaga;

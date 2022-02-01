@@ -1,33 +1,12 @@
 import {
   CREATE_VENDOR,
   GET_VENDORS,
-  GET_DEPARTMENT,
+  UPDATE_VENDOR,
   CREATE_VENDOR_SUCCESSFUL,
+  UPDATE_VENDOR_SUCCESSFUL,
   FETCH_VENDORS_SUCCESSFUL,
-  FETCH_DEPARTMENT_SUCCESSFUL,
-  API_ERROR,
+  VENDOR_API_ERROR,
 } from './actionTypes';
-
-export const createVendor = (reqPayload) => {
-  return {
-    type: CREATE_VENDOR,
-    payload: { reqPayload },
-  };
-};
-
-export const createVendorSuccessful = (payload) => {
-  return {
-    type: CREATE_VENDOR_SUCCESSFUL,
-    payload: payload,
-  };
-};
-
-export const apiError = (error) => {
-  return {
-    type: API_ERROR,
-    payload: error,
-  };
-};
 
 export const fetchVendor = () => {
   return {
@@ -39,5 +18,39 @@ export const fetchVendorSuccessful = (payload) => {
   return {
     type: FETCH_VENDORS_SUCCESSFUL,
     payload: payload,
+  };
+};
+
+export const createVendor = (payload) => {
+  return {
+    type: CREATE_VENDOR,
+    payload,
+  };
+};
+
+export const createVendorSuccessful = (payload) => {
+  return {
+    type: CREATE_VENDOR_SUCCESSFUL,
+    payload: payload,
+  };
+};
+export const updateVendor = (payload) => {
+  return {
+    type: UPDATE_VENDOR,
+    payload,
+  };
+};
+
+export const updateVendorSuccessful = (payload) => {
+  return {
+    type: UPDATE_VENDOR_SUCCESSFUL,
+    payload: payload,
+  };
+};
+
+export const apiError = (error) => {
+  return {
+    type: VENDOR_API_ERROR,
+    payload: error,
   };
 };

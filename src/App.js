@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 // Import Routes
 import { authProtectedRoutes, publicRoutes } from './routes/';
 import AppRoute from './routes/route';
+import AppRoutePublic from './routes/routePublic';
 
 // layouts
 import VerticalLayout from './components/VerticalLayout/';
@@ -15,7 +16,7 @@ import NonAuthLayout from './components/NonAuthLayout';
 import './theme.scss';
 
 //Firebase helper
-import { loadUser } from './store/auth/register/actions';
+import { loadUser } from './store/auth/actions';
 
 class App extends Component {
   constructor(props) {
@@ -25,9 +26,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem(process.env.REACT_APP_USERSTORAGE)) {
-      this.props.loadUser();
-    }
+    this.props.loadUser();
   }
 
   /**
@@ -52,27 +51,30 @@ class App extends Component {
 
     return (
       <React.Fragment>
-        <Router>
-          <Switch>
-            {publicRoutes.map((route, idx) => (
-              <AppRoute
-                path={route.path}
-                layout={NonAuthLayout}
-                component={route.component}
-                key={idx}
-              />
-            ))}
+        {this.props.auth.isAuthenticated !==
+          null && (
+            <Router>
+              <Switch>
+                {publicRoutes.map((route, idx) => (
+                  <AppRoutePublic
+                    path={route.path}
+                    layout={NonAuthLayout}
+                    component={route.component}
+                    key={idx}
+                  />
+                ))}
 
-            {authProtectedRoutes.map((route, idx) => (
-              <AppRoute
-                path={route.path}
-                layout={Layout}
-                component={route.component}
-                key={idx}
-              />
-            ))}
-          </Switch>
-        </Router>
+                {authProtectedRoutes.map((route, idx) => (
+                  <AppRoute
+                    path={route.path}
+                    layout={Layout}
+                    component={route.component}
+                    key={idx}
+                  />
+                ))}
+              </Switch>
+            </Router>
+          )}
       </React.Fragment>
     );
   }

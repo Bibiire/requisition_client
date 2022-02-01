@@ -117,7 +117,7 @@ import KanbanBoard from '../pages/KanbanBoard/index';
 const authProtectedRoutes = [
   // Prananet Pages
   { path: '/app-dashboard', component: Pra_Dashboard },
-  { path: '/app-vendors', component: ComingSoon },
+  { path: '/app-vendors', component: Pra_Vendors },
   { path: '/app-users', component: ComingSoon },
   { path: '/app-reports', component: Pra_Report },
   { path: '/app-reports', component: Pra_Report },

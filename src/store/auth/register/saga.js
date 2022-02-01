@@ -39,7 +39,6 @@ function* registerUser({ payload: { user } }) {
 
 function* loadUser({ payload }) {
   try {
-    // const response = yield call(postRegister, '/post-register', user);
 
     if (getUserToken()) {
       yield put(loadUserSuccessful(getUserToken()));

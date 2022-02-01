@@ -7,7 +7,7 @@ import {
 } from './actionTypes';
 
 const initialState = {
-  reqError: 'aaa',
+  reqError: null,
   departments: null,
   loading: false,
 };
@@ -17,7 +17,7 @@ const requisition = (state = initialState, action) => {
     case GET_DEPARTMENT:
       state = {
         ...state,
-        loading: false,
+        loading: true,
       };
       break;
 

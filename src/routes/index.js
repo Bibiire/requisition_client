@@ -102,6 +102,7 @@ import ForgetPwd1 from '../pages/AuthenticationInner/ForgetPassword';
 
 // Prananet Pagess
 import Pra_Dashboard from '../pages/Apps/Dashboard';
+import App_dash from '../pages/Apps/Landing';
 import Pra_Vendors from '../pages/Apps/Vendors';
 import Pra_Users from '../pages/Apps/Users';
 import Pra_Profile from '../pages/Apps/Profile';
@@ -117,8 +118,9 @@ import KanbanBoard from '../pages/KanbanBoard/index';
 const authProtectedRoutes = [
   // Prananet Pages
   { path: '/app-dashboard', component: Pra_Dashboard },
+  { path: '/app-dash', component: App_dash },
   { path: '/app-vendors', component: Pra_Vendors },
-  { path: '/app-users', component: ComingSoon },
+  { path: '/app-users', component: Pra_Users },
   { path: '/app-reports', component: Pra_Report },
   { path: '/app-reports', component: Pra_Report },
   { path: '/app-policies', component: Pra_Policies },

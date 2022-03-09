@@ -34,7 +34,7 @@ function* loginUser({ payload: { user, history } }) {
     });
     yield put(loginUserSuccessful(response.data.token));
     yield call(loadUserHandler);
-    history.push('/app-dashboard');
+    history.push('/app-dash');
   } catch (error) {
     console.log(error.response);
     yield put(apiError(error.response.data));

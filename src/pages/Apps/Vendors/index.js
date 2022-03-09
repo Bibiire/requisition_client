@@ -5,7 +5,11 @@ import { Container, Row, Col, Card, CardBody, Badge } from 'reactstrap';
 import Breadcrumbs from '../../../components/Common/Breadcrumb';
 
 import { Modal } from '../../../components/UiElement/index';
-import { fetchVendor, createVendor, updateVendor } from '../../../store/vendors/actions';
+import {
+  fetchVendor,
+  createVendor,
+  updateVendor,
+} from '../../../store/vendors/actions';
 import { connect } from 'react-redux';
 
 // Component
@@ -24,6 +28,7 @@ class Vendor extends Component {
       modalTitle: 'Create Vendor',
     };
     this.toggleModal = this.toggleModal.bind(this);
+    this.onChangeHandler = this.onChangeHandler.bind(this);
   }
 
   toggleModal() {
@@ -34,6 +39,17 @@ class Vendor extends Component {
 
   componentDidMount() {
     this.props.fetchVendor();
+  }
+
+  onChangeHandler(e) {
+    if (e.target.value === '') {
+      this.props.fetchVendor();
+    } else {
+      const filter = {
+        status: e.target.value,
+      };
+      this.props.fetchVendor(filter);
+    }
   }
 
   render() {
@@ -52,12 +68,12 @@ class Vendor extends Component {
                     <div>
                       <div className="float-right d-flex">
                         <select
-                          // onChange={onChangeHandler}
+                          onChange={this.onChangeHandler}
                           className="custom-select custom-select-sm mr-2"
                         >
-                          <option value="all">All Vendors</option>
-                          <option value="active">Active</option>
-                          <option value="pending">De-active</option>
+                          <option value="">All Vendors</option>
+                          <option value={true}>Active</option>
+                          <option value={false}>De-active</option>
                         </select>
                         <span
                           className="btn btn-light btn-sm ml-2"
@@ -70,7 +86,8 @@ class Vendor extends Component {
                         <h4 className="card-title mb-4">
                           Vendors{' '}
                           <Badge color="success" className="mr-1">
-                            204
+                            {this.props.vendors !== null &&
+                              this.props.vendors.length}
                           </Badge>
                         </h4>
                       </div>
@@ -101,4 +118,8 @@ const mapStateToProps = (state) => {
   const { vendors, loading } = state.Vendor;
   return { vendors, loading };
 };
-export default connect(mapStateToProps, { fetchVendor, createVendor, updateVendor })(Vendor);
+export default connect(mapStateToProps, {
+  fetchVendor,
+  createVendor,
+  updateVendor,
+})(Vendor);

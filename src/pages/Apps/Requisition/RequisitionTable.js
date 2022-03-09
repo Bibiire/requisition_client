@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Moment from 'moment';
-import { Card, CardBody, UncontrolledTooltip } from 'reactstrap';
+import { Card, CardBody, UncontrolledTooltip, Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { MDBDataTable } from 'mdbreact';
 import '../../../assets/scss/common/datatables.scss';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import { data, dateRangeParams } from './data';
 import { LoadingCard } from '../../../components/Common/index';
+import Requisition from '.';
 
 const RequisitionTable = ({
   user,
@@ -21,6 +22,9 @@ const RequisitionTable = ({
 }) => {
   const [newData, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [approveCount, setApproveCount] = useState(0);
+  const [rejectCount, setRejectCount] = useState(0);
+  const [progressCount, setProgressCount] = useState(0);
 
   useEffect(() => {
     if (requestData) {
@@ -37,9 +41,31 @@ const RequisitionTable = ({
     }
     onChangeRequest(params);
   };
-
+  
   const updateTableData = () => {
+    // console.log(requestData.length);
+    let approveCount = 0
+    let rejectCount = 0
+    let progressCount = 0
+    let pendingCount = 0
     const cloneRowsData = requestData.map((request) => {
+      console.log(request);
+      if (request?.approve?.status) {
+        approveCount++
+      }
+      else if(request?.inputter?.status === true &&
+        (request?.verify?.status === false ||
+          request?.authorize?.status === false ||
+          request?.approve?.status === false) ) {
+        rejectCount++
+      }
+      else if(request?.authorize?.status || request?.verify?.status){
+        
+        progressCount++
+      }
+      else if (request.inputter.status === false) {
+        pendingCount++
+      }
       const newRequest = {
         item:
           request.itemName.charAt(0).toUpperCase() + request.itemName.slice(1),
@@ -104,6 +130,7 @@ const RequisitionTable = ({
               : 'danger'}
           </div>
         ),
+        
         total: request.totalPrice
           ? `₦${request.totalPrice?.toLocaleString()}`
           : '0.00',
@@ -114,6 +141,7 @@ const RequisitionTable = ({
         ),
         actions: (
           <>
+          
             {user === 'user' ? (
               <>
                 {request?.isEdited === false ? (
@@ -384,6 +412,11 @@ const RequisitionTable = ({
       };
       return newRequest;
     });
+    console.log(approveCount);
+    console.log(rejectCount);
+    console.log(progressCount);
+    console.log(pendingCount);
+    setApproveCount(approveCount)
     setIsLoading(false);
     return {
       columns: data.columns,
@@ -458,7 +491,11 @@ const RequisitionTable = ({
               </span>
             </div>
 
-            <h4 className="card-title mb-4">Transition</h4>
+            <h4 className="card-title mb-4">Requisition {' '} 
+              <Badge color="success" className="mr-1">
+                            {requestData!== null &&
+                              requestData.length}
+                          </Badge></h4>
           </div>
           {isLoading === false ? (
             <MDBDataTable responsive data={newData} className="mt-2" />
@@ -471,4 +508,5 @@ const RequisitionTable = ({
   );
 };
 
-export default RequisitionTable;
+export default RequisitionTable
+

@@ -7,6 +7,7 @@ import Layout from './layout/reducer';
 import Account from './auth/reducer';
 import Requisition from './requisition/reducer';
 import Vendor from './vendors/reducer';
+import User from './users/reducer';
 import Department from './department/reducer';
 import Forget from './auth/forgetpwd/reducer';
 
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   // Private
   Requisition,
   Vendor,
+  User,
   Department,
 });
 

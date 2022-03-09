@@ -7,6 +7,7 @@ import LayoutSaga from './layout/saga';
 import Requisition from './requisition/saga';
 import Department from './department/saga';
 import Vendor from './vendors/saga';
+import User from './users/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -18,5 +19,6 @@ export default function* rootSaga() {
         Requisition(),
         Department(),
         Vendor(),
+        User(),
     ])
 }

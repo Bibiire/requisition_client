@@ -91,6 +91,7 @@ class Requisition extends Component {
         },
       ],
     };
+    // console.log(approveCount);
     this.reportHandler = this.reportHandler.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.editRequestModalHandler = this.editRequestModalHandler.bind(this);
@@ -177,6 +178,8 @@ class Requisition extends Component {
   }
 
   render() {
+    console.log(this.state.pending);
+    console.log(this.props.requests);
     const {
       modalTitle,
       modalContent,
@@ -186,6 +189,10 @@ class Requisition extends Component {
       editData,
       pendingReport,
     } = this.state;
+    console.log(this.props.requests);
+    const requests = this.props.requests
+    
+    // console.log(requist);
     return (
       <React.Fragment>
         {this.props.successMsg === true && (
@@ -227,6 +234,7 @@ class Requisition extends Component {
                   user={this.props.user.roles[this.state.roleIndex]}
                   editModal={(value) =>
                     this.editRequestModalHandler(this, value)
+                    
                   }
                   summaryPreview={this.summaryModalHandler}
                   requestData={this.props.requests}

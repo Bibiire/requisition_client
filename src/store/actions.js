@@ -8,4 +8,5 @@ export * from './auth/forgetpwd/actions';
 // Page module
 export * from './requisition/actions'
 export * from './vendors/actions'
+export * from './users/actions'
 export * from './department/actions'

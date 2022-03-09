@@ -16,7 +16,7 @@ const AppRoutePublic = ({
       render={(props) =>
         isAuthenticated && !loading ? (
           <Redirect
-            to={{ pathname: '/app-dashboard', state: { from: props.location } }}
+            to={{ pathname: '/app-dash', state: { from: props.location } }}
           />
         ) : (
           <Layout>

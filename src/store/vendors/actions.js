@@ -8,9 +8,10 @@ import {
   VENDOR_API_ERROR,
 } from './actionTypes';
 
-export const fetchVendor = () => {
+export const fetchVendor = (filter) => {
   return {
     type: GET_VENDORS,
+    payload: filter,
   };
 };
 

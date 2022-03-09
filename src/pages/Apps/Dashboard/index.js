@@ -9,6 +9,9 @@ import MiniWidgets from './MiniWidgets';
 import RevenueAnalytics from './RevenueAnalytics';
 import DepartmentalAnalysis from '../../../components/Common/PieChartCard';
 import EarningReports from './ReportSummary';
+import {
+  fetchRequisition,
+} from '../../../store/requisition/actions';
 // import Sources from "./Sources";
 // import RecentlyActivity from "./RecentlyActivity";
 // import RevenueByLocations from "./RevenueByLocations";
@@ -42,6 +45,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pending: 0,
       breadcrumbItems: [
         { title: 'Prananet', link: '#' },
         { title: 'Dashboard', link: '#' },
@@ -50,7 +54,7 @@ class Dashboard extends Component {
         {
           icon: 'ri-stack-line',
           title: 'Requisitions',
-          value: '209',
+          value: '210',
           rate: '2.4%',
           desc: 'From previous period',
         },

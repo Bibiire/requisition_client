@@ -21,7 +21,7 @@ class SidebarContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showSideBar: true,
+      showSideBar: false,
     };
   }
 
@@ -82,6 +82,8 @@ class SidebarContent extends Component {
   };
 
   render() {
+    // let admin = false
+    console.log(this .props.user?.roles[0]);
     return (
       <React.Fragment>
         <div id="sidebar-menu">
@@ -90,7 +92,7 @@ class SidebarContent extends Component {
             <li className="menu-title">{this.props.t('Prananet App')}</li>
 
             <li>
-              <Link to="/app-dashboard" className="waves-effect">
+              <Link to="/app-dash" className="waves-effect">
                 <i className="ri-dashboard-line"></i>
                 <span className="badge badge-pill badge-success float-right">
                   3
@@ -153,6 +155,7 @@ class SidebarContent extends Component {
             </li>
 
             {/* Management */}
+            {this .props.user?.roles[0] === 'admin' && (<>
             <li>
               <Link to="/#" className="has-arrow waves-effect">
                 <i className="ri-user-settings-line"></i>
@@ -165,14 +168,14 @@ class SidebarContent extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/app-user">{this.props.t('Users')}</Link>
+                  <Link to="/app-users">{this.props.t('Users')}</Link>
                 </li>
                 <li>
                   <Link to="/app-profile">{this.props.t('Profile')}</Link>
                 </li>
               </ul>
             </li>
-
+            </>)}
             {/* Prananet Board ---- Ending Page */}
 
             {/* Template Board ------- Beginning  */}
@@ -609,7 +612,8 @@ class SidebarContent extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  return { ...state.Layout };
+  const { user } = state.Account;
+  return { ...state.Layout, user };
 };
 
 export default withRouter(

@@ -5,6 +5,7 @@ class MiniWidgets extends Component {
   render() {
     return (
       <React.Fragment>
+        
         {this.props.reports.map((report, key) => (
           <Col key={key} md={4}>
             <Card>

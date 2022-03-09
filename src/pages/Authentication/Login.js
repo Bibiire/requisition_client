@@ -23,11 +23,12 @@ import { checkLogin, apiError } from '../../store/actions';
 
 // import images
 import logodark from '../../assets/images/logo-dark.png';
+import clip from '../../assets/video/LandingCom.mp4'; 
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: 'seun', password: 'password@123' };
+    this.state = { username: '', password: '' };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -56,7 +57,7 @@ class Login extends Component {
         <div>
           <Container fluid className="p-0">
             <Row className="no-gutters">
-              <Col lg={4}>
+              <Col lg={3}>
                 <div className="authentication-page-content p-4 d-flex align-items-center min-vh-100">
                   <div className="w-100">
                     <Row className="justify-content-center">
@@ -79,7 +80,7 @@ class Login extends Component {
 
                           {this.props.loginError && this.props.loginError ? (
                             <Alert color="danger">
-                              {this.props.loginError.errors.map(
+                              {this.props.loginError?.errors?.map(
                                 (error, index) => (
                                   <span key={index}> {error.msg} </span>
                                 )
@@ -144,27 +145,15 @@ class Login extends Component {
                               </div>
 
                               <div className="mt-4 text-center">
-                                <Link
-                                  to="/forgot-password"
+                                <p
+                                  
                                   className="text-muted"
                                 >
                                   <i className="mdi mdi-lock mr-1"></i> Forgot
-                                  your password?
-                                </Link>
+                                  your password? Contact the Admin
+                                </p>
                               </div>
                             </AvForm>
-                          </div>
-
-                          <div className="mt-5 text-center">
-                            <p>
-                              Don't have an account ?
-                              <Link
-                                to="/register"
-                                className="font-weight-medium text-success"
-                              >
-                                Register
-                              </Link>
-                            </p>
                           </div>
                         </div>
                       </Col>
@@ -173,9 +162,19 @@ class Login extends Component {
                 </div>
               </Col>
               <Col lg={8}>
-                <div className="authentication-bg">
+                {/* <div className="authentication-bg">
                   <div className="bg-overlay"></div>
-                </div>
+                </div> */}
+                 <div className="">
+                  <video id="background-video" autoPlay loop>
+                    <source
+                      src={clip}
+                      type="video/mp4"
+                    />
+                    Your browser does not support the video tag.
+                  </video>
+                 </div>
+                
               </Col>
             </Row>
           </Container>

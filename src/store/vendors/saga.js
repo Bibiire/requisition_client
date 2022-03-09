@@ -31,9 +31,9 @@ function* createVendor(payload) {
   }
 }
 
-function* fetchVendor() {
+function* fetchVendor(payload) {
   try {
-    const response = yield call(getVendorService);
+    const response = yield call(getVendorService, payload);
     yield put(fetchVendorSuccessful(response.data));
   } catch (error) {
     yield put(apiError(error));

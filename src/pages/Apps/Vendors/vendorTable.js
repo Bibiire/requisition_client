@@ -1,44 +1,20 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UncontrolledTooltip, Input, Label, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import { MDBDataTable } from 'mdbreact';
 import '../../../assets/scss/datatables.scss';
+// import { v4 as uuid } from 'uuid';
 
-class VendorTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.toggleTab = this.toggleTab.bind(this);
-    this.updateHandler = this.updateHandler.bind(this);
-  }
+const VendorTable = ({ data, loading, updateVendor }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [vendorData, setData] = useState(true);
+  // const unique_id = uuid();
 
-  toggleTab(tab) {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab,
-      });
-    }
-  }
-
-  updateHandler(value, state) {
-    const newVendor = {
-      ...value,
-      status: state,
-    };
-    this.props.updateVendor(newVendor);
-  }
-
-  componentDidMount() {
-    document
-      .getElementsByClassName('pagination')[0]
-      .classList.add('pagination-rounded');
-  }
-
-  render() {
-    let data;
-    if (this.props.data !== null && !this.props.loading) {
-      data = {
+  useEffect(() => {
+    if (data !== null && !loading) {
+      console.log(data);
+      let clonedData = {
         columns: [
           {
             label: 'Vendor Name',
@@ -84,8 +60,8 @@ class VendorTable extends Component {
           },
         ],
         rows:
-          this.props.data !== null &&
-          this.props.data.map((vendor) => {
+          data !== null &&
+          data.map((vendor) => {
             return {
               id: (
                 <Link to="#" className="text-dark font-weight-bold">
@@ -94,9 +70,9 @@ class VendorTable extends Component {
               ),
               name: vendor.name,
               location: vendor.location,
-              bankName: vendor.bank_details.bank_name,
-              acc_name: vendor.bank_details.acc_name,
-              acc_no: vendor.bank_details.acc_no,
+              bankName: vendor?.bank_details?.bank_name,
+              acc_name: vendor?.bank_details?.acc_name,
+              acc_no: vendor?.bank_details?.acc_no,
               status: (
                 <div
                   className={`badge ${
@@ -118,29 +94,29 @@ class VendorTable extends Component {
                     <>
                       <Link
                         to="#"
-                        onClick={() => this.updateHandler(vendor, false)}
+                        onClick={() => updateHandler(vendor, false)}
                         className="text-danger"
                         id="de_activate"
                       >
                         <i className="far fa-check-circle font-size-18"></i>
                       </Link>
-                      <UncontrolledTooltip placement="top" target="de_activate">
+                      {/* <UncontrolledTooltip placement="top" target="de_activate">
                         De_Activate
-                      </UncontrolledTooltip>
+                      </UncontrolledTooltip> */}
                     </>
                   ) : (
                     <>
                       <Link
                         to="#"
-                        onClick={() => this.updateHandler(vendor, true)}
+                        onClick={() => updateHandler(vendor, true)}
                         className="text-success"
                         id="activate"
                       >
                         <i className="far fa-check-circle font-size-18"></i>
                       </Link>
-                      <UncontrolledTooltip placement="top" target="activate">
+                      {/* <UncontrolledTooltip placement="top" target="activate">
                         Activate
-                      </UncontrolledTooltip>
+                      </UncontrolledTooltip> */}
                     </>
                   )}
                 </>
@@ -148,13 +124,26 @@ class VendorTable extends Component {
             };
           }),
       };
+      setData(clonedData);
+      setIsLoading(false);
     }
-    return (
-      <React.Fragment>
-        <MDBDataTable responsive data={data} className="mt-4" />
-      </React.Fragment>
-    );
-  }
-}
+  }, [data]);
+
+  const updateHandler = (value, state) => {
+    const newVendor = {
+      ...value,
+      status: state,
+    };
+    updateVendor(newVendor);
+  };
+
+  return (
+    <React.Fragment>
+      {!isLoading && (
+        <MDBDataTable responsive data={vendorData} className="mt-4" />
+      )}
+    </React.Fragment>
+  );
+};
 
 export default VendorTable;

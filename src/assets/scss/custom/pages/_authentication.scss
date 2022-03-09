@@ -19,6 +19,19 @@
             display: none;
     }
 }
+#background-video{
+
+    height: 100%;
+    width: 80%;
+    float: left;
+    top: 0;
+    padding: none;
+    position: fixed; /* optional depending on what you want to do in your app */
+    @media (max-width: 991px) {
+        display: none;
+}
+    
+    }
 
 .authentication-page-content{
     height: 100vh;

@@ -48,7 +48,7 @@ class App extends Component {
 
   render() {
     const Layout = this.getLayout();
-
+    console.log(this.props.auth);
     return (
       <React.Fragment>
         {this.props.auth.isAuthenticated !==

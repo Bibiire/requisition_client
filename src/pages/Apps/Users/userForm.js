@@ -3,20 +3,22 @@ import { Row, Col, FormGroup, Label, Button, Input } from 'reactstrap';
 
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 
-const VendorForm = ({createVendor}) => {
+const userForm = ({createUser, departments,}) => {
   const handleValidSubmit = (event, values) => {
-    const vendor = {
+    console.log(values);
+    const user = {
       name: values.name.trim(),
-      phone_no: values.phone_no,
-      location: values.address + values.state,
-      bank_details: {
-        bank_name: values.bank_name,
-        acc_name: values.acc_name,
-        acc_no: values.acc_no,
-      },
+      email: values.email,
+      password: values.password,
+    
+        position: values.position,
+        departmentId: values.departmentId,
+        roles: values.roles,
+      
     };
-    // console.log(vendor);
-    createVendor(vendor)
+    console.log(departments);
+    console.log(user);
+    createUser(user)
   };
   return (
     <React.Fragment>
@@ -25,7 +27,7 @@ const VendorForm = ({createVendor}) => {
           <Row>
             <Col lg={8}>
               <FormGroup>
-                <Label htmlFor="name">Vendor name</Label>
+                <Label htmlFor="name">Full Name</Label>
                 <AvField
                   id="name"
                   name="name"
@@ -38,11 +40,11 @@ const VendorForm = ({createVendor}) => {
             </Col>
             <Col md={4}>
               <FormGroup>
-                <Label htmlFor="phone_no">Phone No</Label>
+                <Label htmlFor="email">Email</Label>
                 <AvField
-                  id="phone_no"
-                  name="phone_no"
-                  type="number"
+                  id="email"
+                  name="email"
+                  type="email"
                   errorMessage="Field Required"
                   validate={{ required: { value: true } }}
                   className="form-control"
@@ -50,19 +52,19 @@ const VendorForm = ({createVendor}) => {
               </FormGroup>
             </Col>
 
-            <Label className="px-3 pb-0">Vendor's Address</Label>
+            {/* <Label className="px-3 pb-0">Vendor's Address</Label>
             <Col xs={12}>
               <hr className="mt-0 pt-0" />
-            </Col>
+            </Col> */}
 
             {/* Address  */}
             <Col md={8}>
               <FormGroup>
-                <Label htmlFor="address">Office Address</Label>
+                <Label htmlFor="password">Password</Label>
                 <AvField
-                  id="address"
-                  name="address"
-                  type="text"
+                  id="password"
+                  name="password"
+                  type="password"
                   errorMessage="Field Required"
                   validate={{ required: { value: true } }}
                   className="form-control"
@@ -71,29 +73,35 @@ const VendorForm = ({createVendor}) => {
             </Col>
             <Col md={4}>
               <FormGroup>
-                <Label htmlFor="state">Local Gov./State</Label>
-                <AvField
-                  id="state"
-                  name="state"
-                  type="text"
-                  errorMessage="Field Required"
-                  validate={{ required: { value: true } }}
-                  className="form-control"
-                />
+                {/* <Label htmlFor="department">Department</Label> */}
+                <AvField type="select" name="departmentId" label="Department" helpMessage="Please select the Department">
+                {departments !== null ? (
+                    <>
+                      <option value="">Departments</option>{' '}
+                      {departments.map((department) => (
+                        <option key={department._id} value={department._id}>
+                          {department.name}
+                        </option>
+                      ))}
+                    </>
+                  ) : (
+                    'Loading...'
+                  )}
+                </AvField>
               </FormGroup>
             </Col>
-            <Label className="px-3 pb-0">Bank Details</Label>
+            {/* <Label className="px-3 pb-0">Bank Details</Label>
             <Col xs={12}>
               <hr className="mt-0 pt-0" />
-            </Col>
+            </Col> */}
 
             {/* Bank Details */}
             <Col md={4}>
               <FormGroup>
-                <Label htmlFor="bank_name">Bank Name</Label>
+                <Label htmlFor="roles">Role</Label>
                 <AvField
-                  id="bank_name"
-                  name="bank_name"
+                  id="roles"
+                  name="roles"
                   type="text"
                   errorMessage="Field Required"
                   validate={{ required: { value: true } }}
@@ -102,7 +110,7 @@ const VendorForm = ({createVendor}) => {
               </FormGroup>
             </Col>
 
-            <Col md={4}>
+            {/* <Col md={4}>
               <FormGroup>
                 <Label htmlFor="acc_name">Acc_Name</Label>
                 <AvField
@@ -128,7 +136,7 @@ const VendorForm = ({createVendor}) => {
                   className="form-control"
                 />
               </FormGroup>
-            </Col>
+            </Col> */}
           </Row>
           <div className="text-center mt-4">
             <Button
@@ -136,7 +144,7 @@ const VendorForm = ({createVendor}) => {
               type="submit"
               className="mr-2 waves-effect waves-light"
             >
-              Create Vendor
+              Create User
             </Button>
           </div>
         </div>
@@ -145,4 +153,4 @@ const VendorForm = ({createVendor}) => {
   );
 };
 
-export default VendorForm;
+export default userForm;

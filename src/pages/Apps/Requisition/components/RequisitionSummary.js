@@ -11,12 +11,13 @@ class Cart extends Component {
     };
     // this.sumArray = this.sumArray.bind(this);
   }
-
+  
   componentDidMount() {
     // filter the approve request
     const newData = this.props.data.filter(
-      (data) => data.approve?.status === true && data.acc_check?.status !== true
+      (data) => data.approve?.status === true
     );
+    console.log(newData);
     const result = newData.reduce(function (r, a) {
       r[a.departmentalId.name] = r[a.departmentalId.name] || [];
       r[a.departmentalId.name].push(a);
@@ -30,6 +31,7 @@ class Cart extends Component {
   }
 
   render() {
+    console.log(this.props.data);
     return (
       <React.Fragment>
         <div>

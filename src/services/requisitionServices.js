@@ -3,7 +3,6 @@ import { GetRequisitionUrl } from '../helpers/userServices_helper';
 
 export const getRequestService = ({ payload }) => {
   let url = 'requests';
-  console.log(payload);
   if (payload) {
     let payloadLink;
     Object.entries(payload).forEach(([k, v], i) => {
